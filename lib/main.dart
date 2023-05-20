@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:star_coffee/app_constants/app_strings.dart';
+import 'package:star_coffee/constants/app_strings.dart';
 import 'package:star_coffee/ui/home_screen.dart';
 
 void main() {
@@ -11,7 +11,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: AppStrings.appTitle,
       home: HomePage(),
