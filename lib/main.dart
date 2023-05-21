@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:star_coffee/constants/app_colors.dart';
 import 'package:star_coffee/constants/app_strings.dart';
 import 'package:star_coffee/ui/home_screen.dart';
 
@@ -14,6 +15,9 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: AppStrings.appTitle,
+      theme: ThemeData(
+        primaryColor: AppColors.primary,
+      ),
       home: HomePage(),
     );
   }

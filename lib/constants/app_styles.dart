@@ -17,9 +17,9 @@ class AppStyles {
   // static TextStyle welcomeStyle = const TextStyle(
   //     fontFamily: 'Archivo', fontSize: 16, color: AppColors.primary);
 
-  static getTextStyle([double? size, Color? color]) {
+  static getTextStyle([double? size, Color? color, String? family]) {
     return TextStyle(
-        fontFamily: 'Archivo',
+        fontFamily: family ?? 'Archivo',
         fontSize: size ?? 18,
         color: color ?? AppColors.secondary);
   }
