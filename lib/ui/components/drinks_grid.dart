@@ -31,7 +31,7 @@ class DrinksGrid extends StatelessWidget {
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: MediaQuery.of(context).size.width < 600 ? 2 : 4,
         crossAxisSpacing: 10,
-        mainAxisExtent: 250,
+        mainAxisExtent: 230,
 
         // childAspectRatio: 0.65,
       ),

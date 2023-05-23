@@ -35,7 +35,7 @@ class HomePage extends StatelessWidget {
         statusBarIconBrightness: Brightness.dark,
         systemNavigationBarColor: AppColors.secondary,
       ),
-      toolbarHeight: 85,
+      toolbarHeight: 80,
       leadingWidth: 80,
       leading: menuIcon,
       centerTitle: true,
@@ -71,7 +71,7 @@ class HomePage extends StatelessWidget {
             handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
             sliver: SliverAppBar(
               elevation: 0,
-              expandedHeight: 100,
+              expandedHeight: 90,
               backgroundColor: AppColors.background,
               title: buildWelcomeText(),
               forceElevated: innerBoxIsScrolled,
@@ -91,24 +91,17 @@ class HomePage extends StatelessWidget {
   }
 
   buildWelcomeText() {
+    Widget welcome = Text(AppStrings.welcome,
+        style: AppStyles.getTextStyle(16, AppColors.primaryLight, 'Poppins'));
+    Widget name = Text(AppStrings.name, style: AppStyles.getTextStyle(20));
     return Padding(
       padding: const EdgeInsets.all(12),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const SizedBox(
-            height: 16,
-          ),
-          Text(
-            AppStrings.welcome,
-            style:
-                AppStyles.getTextStyle(16, AppColors.primaryLight, 'Poppins'),
-          ),
-          Text(
-            AppStrings.name,
-            style: AppStyles.getTextStyle(20),
-          )
+          welcome,
+          name,
         ],
       ),
     );
@@ -222,8 +215,7 @@ class HomePage extends StatelessWidget {
               print('_selectedPage: $_selectedPage');
             },
             style: ButtonStyle(
-                shape: MaterialStateProperty.all(RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(50))),
+                shape: MaterialStateProperty.all(const CircleBorder()),
                 fixedSize: MaterialStateProperty.all(const Size(84, 84)),
                 backgroundColor: MaterialStateProperty.all(AppColors.primary)),
             child: SvgPicture.asset(

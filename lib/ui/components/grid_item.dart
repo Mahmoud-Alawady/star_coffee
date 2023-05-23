@@ -20,7 +20,7 @@ class GridItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(top: 50),
+      padding: const EdgeInsets.only(top: 45, bottom: 5),
       child: Stack(
         clipBehavior: Clip.none,
         children: [
@@ -33,53 +33,59 @@ class GridItem extends StatelessWidget {
 
   buildImage() {
     return Positioned(
-        top: -45,
-        left: 0,
-        right: 0,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            ClipOval(
-              child: Image.network(
-                image,
-                fit: BoxFit.cover,
-                height: 90,
-                width: 90,
-              ),
-            ),
-          ],
-        ));
+      top: -45,
+      left: 0,
+      right: 0,
+      child: Align(
+        alignment: Alignment.center,
+        child: ClipOval(
+          child: Image.network(
+            image,
+            fit: BoxFit.cover,
+            height: 90,
+            width: 90,
+          ),
+        ),
+      ),
+    );
   }
 
   buildBody() {
     return Stack(
-      children: [buildContent(), buildAddIcon()],
+      children: [
+        buildContent(),
+        buildAddIcon(),
+      ],
     );
   }
 
   buildContent() {
+    Widget title = Text(this.title,
+        style: AppStyles.getTextStyle(16, AppColors.secondary));
+    Widget subtitle = Text(this.subtitle,
+        style: AppStyles.getTextStyle(14, AppColors.primaryLight, 'Poppins'));
+
+    Widget price = Text(
+      '\$ ${this.price}',
+      style: AppStyles.getTextStyle(16, AppColors.secondary),
+    );
+    Widget rate = _buildRow(Icons.star, this.rate.toString());
     return Container(
-      // constraints: const BoxConstraints(maxWidth: 150, maxHeight: 300),
       decoration: const BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.all(Radius.circular(26))),
       child: Padding(
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.symmetric(horizontal: 16),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            emptyBox(36),
-            Text(title, style: AppStyles.getTextStyle(16, AppColors.secondary)),
-            Text(subtitle,
-                style: AppStyles.getTextStyle(
-                    14, AppColors.primaryLight, 'Poppins')),
-            emptyBox(4),
-            Text(
-              '  \$ $price',
-              style: AppStyles.getTextStyle(16, AppColors.secondary),
-            ),
-            buildRow(Icons.star, rate.toString())
+            const SizedBox(height: 36),
+            title,
+            subtitle,
+            const SizedBox(height: 0.5),
+            price,
+            rate,
           ],
         ),
       ),
@@ -112,19 +118,13 @@ class GridItem extends StatelessWidget {
     );
   }
 
-  emptyBox(double height) {
-    return Container(
-      height: height,
-    );
-  }
-
-  buildRow(IconData icon, String text) {
+  _buildRow(IconData icon, String text) {
     return Row(
       children: [
         Icon(
           icon,
           color: Colors.yellow,
-          size: 26,
+          size: 24,
         ),
         Text(text, style: AppStyles.getTextStyle(16, Colors.black, 'Poppins')),
       ],
