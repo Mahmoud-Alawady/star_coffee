@@ -11,22 +11,24 @@ import '../constants/app_styles.dart';
 class HomePage extends StatelessWidget {
   int _selectedCategory = 0;
   int _selectedPage = 0;
+  late BuildContext context;
 
   HomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    this.context = context;
     return Scaffold(
       backgroundColor: AppColors.background,
       appBar: buildAppBar(),
       body: buildBody(),
-      extendBody: true,
-      bottomNavigationBar: buildBottomNavigationBar(),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      resizeToAvoidBottomInset: false,
     );
   }
 
   buildAppBar() {
+    Widget menuIcon = _buildIconButton('menu', AppPaths.menuIcon, 16);
+    Widget searchIcon = _buildIconButton('search', AppPaths.searchIcon, 24);
     return AppBar(
       systemOverlayStyle: const SystemUiOverlayStyle(
         statusBarColor: AppColors.background,
@@ -35,41 +37,29 @@ class HomePage extends StatelessWidget {
       ),
       toolbarHeight: 85,
       leadingWidth: 80,
-      leading: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 12),
-        child: IconButton(
-          icon: SvgPicture.asset(
-            height: 16,
-            width: 16,
-            AppPaths.menuIcon,
-            semanticsLabel: 'menu drawer',
-            fit: BoxFit.contain,
-          ),
-          onPressed: () {},
-        ),
-      ),
+      leading: menuIcon,
       centerTitle: true,
-      title: Text(
-        'StarCoffee',
-        style: AppStyles.getTextStyle(22),
-      ),
-      actions: [
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 12),
-          child: IconButton(
-            onPressed: () {},
-            icon: SvgPicture.asset(
-              height: 24,
-              width: 24,
-              AppPaths.searchIcon,
-              semanticsLabel: 'search',
-              fit: BoxFit.contain,
-            ),
-          ),
-        )
-      ],
+      title: Text('StarCoffee', style: AppStyles.getTextStyle(22)),
+      actions: [searchIcon],
       backgroundColor: AppColors.background,
       elevation: 0,
+    );
+  }
+
+  _buildIconButton(
+      [String? label, String? icon, double? size, VoidCallback? function]) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 12),
+      child: IconButton(
+        icon: SvgPicture.asset(
+          icon!,
+          height: size ?? 24,
+          width: size ?? 24,
+          semanticsLabel: label,
+          fit: BoxFit.contain,
+        ),
+        onPressed: function,
+      ),
     );
   }
 
@@ -90,7 +80,13 @@ class HomePage extends StatelessWidget {
           ),
         ];
       },
-      body: buildNavRailWithGrid(),
+      body: Stack(
+        children: [
+          buildNavRailWithGrid(),
+          buildBottomNavBar(),
+          buildHomeButton(),
+        ],
+      ),
     );
   }
 
@@ -145,16 +141,17 @@ class HomePage extends StatelessWidget {
           print('_selectedCategory: $_selectedCategory');
         },
         destinations: [
-          buildNavigationRailDestination('Hot Tea'),
-          buildNavigationRailDestination('Hot Tea'),
-          buildNavigationRailDestination('Hot Tea'),
-          buildNavigationRailDestination('Hot Tea'),
+          buildNavRailDestination('Hot Tea'),
+          buildNavRailDestination('Hot Tea'),
+          buildNavRailDestination('Hot Tea'),
+          buildNavRailDestination('Hot Tea'),
+          buildNavRailDestination('Hot Tea'),
         ],
       ),
     );
   }
 
-  buildNavigationRailDestination(String text, [double? padding]) {
+  buildNavRailDestination(String text, [double? padding]) {
     return NavigationRailDestination(
       icon: const SizedBox.shrink(),
       label: Padding(
@@ -163,69 +160,39 @@ class HomePage extends StatelessWidget {
           quarterTurns: -1,
           child: Text(
             text,
-            // softWrap: false,
+            maxLines: 1,
           ),
         ),
       ),
     );
   }
 
-  buildBottomNavigationBar() {
-    return SizedBox(
-      height: 120,
-      child: Stack(children: [
-        Positioned(
-          bottom: 0,
-          left: 0,
-          right: 0,
-          child: ClipPath(
-            clipper: ClipBottomBar(),
-            child: Container(
-              height: 120,
-              color: AppColors.secondary,
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  buildNavigationBarIcon(AppPaths.cartIcon, 0),
-                  buildNavigationBarIcon(AppPaths.bookIcon, 1),
-                  const SizedBox(width: 80),
-                  buildNavigationBarIcon(AppPaths.heartIcon, 2),
-                  buildNavigationBarIcon(AppPaths.profileIcon, 3),
-                ],
-              ),
-            ),
+  buildBottomNavBar() {
+    return Align(
+      alignment: Alignment.bottomCenter,
+      child: ClipPath(
+        clipBehavior: Clip.antiAlias,
+        clipper: ClipBottomBar(),
+        child: Container(
+          height: 120,
+          color: AppColors.secondary,
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              buildNavBarIcon(AppPaths.cartIcon, 1),
+              buildNavBarIcon(AppPaths.bookIcon, 2),
+              const SizedBox(width: 80),
+              buildNavBarIcon(AppPaths.heartIcon, 3),
+              buildNavBarIcon(AppPaths.profileIcon, 4),
+            ],
           ),
         ),
-        Align(
-          alignment: Alignment.bottomCenter,
-          child: Column(mainAxisAlignment: MainAxisAlignment.end, children: [
-            SizedBox(
-              width: 85,
-              height: 85,
-              child: FloatingActionButton(
-                backgroundColor: AppColors.primary,
-                onPressed: () {
-                  _selectedPage = 4;
-                  print('_selectedPage: $_selectedPage');
-                },
-                elevation: 0,
-                child: SvgPicture.asset(
-                  height: 26,
-                  width: 26,
-                  AppPaths.homeIcon,
-                  theme: const SvgTheme(currentColor: AppColors.background),
-                ),
-              ),
-            ),
-            const SizedBox(height: 26) //fab bottom elevation
-          ]),
-        ),
-      ]),
+      ),
     );
   }
 
-  buildNavigationBarIcon(String icon, int index) {
+  buildNavBarIcon(String icon, int index) {
     return IconButton(
       padding:
           const EdgeInsets.only(bottom: 22), //nav bar icons bottom elevation
@@ -239,6 +206,32 @@ class HomePage extends StatelessWidget {
         width: 22,
         height: 22,
         fit: BoxFit.contain,
+      ),
+    );
+  }
+
+  buildHomeButton() {
+    return Positioned(
+      bottom: 24,
+      width: MediaQuery.of(context).size.width,
+      child: Align(
+        alignment: Alignment.center,
+        child: TextButton(
+            onPressed: () {
+              _selectedPage = 0;
+              print('_selectedPage: $_selectedPage');
+            },
+            style: ButtonStyle(
+                shape: MaterialStateProperty.all(RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(50))),
+                fixedSize: MaterialStateProperty.all(const Size(84, 84)),
+                backgroundColor: MaterialStateProperty.all(AppColors.primary)),
+            child: SvgPicture.asset(
+              AppPaths.homeIcon,
+              height: 28,
+              width: 28,
+              fit: BoxFit.contain,
+            )),
       ),
     );
   }

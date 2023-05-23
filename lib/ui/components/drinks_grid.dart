@@ -23,29 +23,27 @@ class DrinksGrid extends StatelessWidget {
       Drink.dump(),
     ];
 
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 10),
-      child: GridView.builder(
-        physics: const BouncingScrollPhysics(
-            decelerationRate: ScrollDecelerationRate.normal),
-        itemCount: drinks.length,
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: MediaQuery.of(context).size.width < 600 ? 2 : 4,
-          crossAxisSpacing: 10,
-          mainAxisExtent: 250,
+    return GridView.builder(
+      padding: const EdgeInsets.only(bottom: 140, left: 10, right: 10),
+      physics: const BouncingScrollPhysics(
+          decelerationRate: ScrollDecelerationRate.normal),
+      itemCount: drinks.length,
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: MediaQuery.of(context).size.width < 600 ? 2 : 4,
+        crossAxisSpacing: 10,
+        mainAxisExtent: 250,
 
-          // childAspectRatio: 0.65,
-        ),
-        itemBuilder: (context, index) {
-          return GridItem(
-            image: drinks[index].image,
-            title: drinks[index].title,
-            subtitle: drinks[index].subtitle,
-            price: drinks[index].price,
-            rate: drinks[index].rate,
-          );
-        },
+        // childAspectRatio: 0.65,
       ),
+      itemBuilder: (context, index) {
+        return GridItem(
+          image: drinks[index].image,
+          title: drinks[index].title,
+          subtitle: drinks[index].subtitle,
+          price: drinks[index].price,
+          rate: drinks[index].rate,
+        );
+      },
     );
   }
 }
