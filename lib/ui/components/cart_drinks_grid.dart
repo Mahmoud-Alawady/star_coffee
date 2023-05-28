@@ -1,13 +1,54 @@
 import 'package:flutter/material.dart';
-import 'package:star_coffee/ui/drink_details.dart';
+import 'package:star_coffee/data/cart_item.dart';
 import '../../constants/app_colors.dart';
 import '../../constants/app_styles.dart';
 import '../../data/drink.dart';
+import '../drink_details.dart';
+import 'grid_item.dart';
 
-class GridItem extends StatelessWidget {
-  final Drink drink;
+class CartDrinksGrid extends StatelessWidget {
+  CartDrinksGrid({
+    super.key,
+    this.drinks,
+  });
+  List<CartItem>? drinks = [];
 
-  const GridItem(this.drink, {super.key});
+  @override
+  Widget build(BuildContext context) {
+    // drinks = [
+    //   Drink.dump0(),
+    //   Drink.dump1(),
+    //   Drink.dump2(),
+    //   Drink.dump3(),
+    //   Drink.dump4(),
+    //   Drink.dump1(),
+    //   Drink.dump3(),
+    //   Drink.dump2(),
+    //   Drink.dump0(),
+    //   Drink.dump4(),
+    // ];
+
+    return GridView.builder(
+      padding: const EdgeInsets.only(bottom: 140, left: 10, right: 10),
+      physics: const BouncingScrollPhysics(
+          decelerationRate: ScrollDecelerationRate.normal),
+      itemCount: drinks!.length,
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: MediaQuery.of(context).size.width < 600 ? 2 : 4,
+        crossAxisSpacing: 10,
+        mainAxisExtent: 230,
+      ),
+      itemBuilder: (context, index) {
+        return CartGridItem(drinks![index]);
+      },
+    );
+  }
+}
+
+class CartGridItem extends StatelessWidget {
+  final CartItem cartDrink;
+
+  const CartGridItem(this.cartDrink, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +58,7 @@ class GridItem extends StatelessWidget {
         onTap: () {
           Navigator.of(context).push(MaterialPageRoute(
             builder: (context) {
-              return DrinkDetails(drink: drink);
+              return DrinkDetails(drink: cartDrink);
             },
           ));
         },
@@ -41,7 +82,7 @@ class GridItem extends StatelessWidget {
         alignment: Alignment.center,
         child: ClipOval(
           child: Image.network(
-            drink.image,
+            cartDrink.drink.image,
             fit: BoxFit.cover,
             height: 90,
             width: 90,
@@ -61,16 +102,16 @@ class GridItem extends StatelessWidget {
   }
 
   buildContent() {
-    Widget title = Text(drink.title,
+    Widget title = Text(cartDrink.drink.title,
         style: AppStyles.getTextStyle(16, AppColors.secondary));
-    Widget subtitle = Text(drink.subtitle,
+    Widget subtitle = Text(cartDrink.drink.subtitle,
         style: AppStyles.getTextStyle(14, AppColors.primaryLight, 'Poppins'));
 
     Widget price = Text(
-      '\$ ${drink.price}',
+      '\$ ${cartDrink.drink.price}',
       style: AppStyles.getTextStyle(16, AppColors.secondary),
     );
-    Widget rate = _buildRow(Icons.star, drink.rate.toString());
+    Widget rate = _buildRow(Icons.star, cartDrink.quantity.toString());
     return Container(
       decoration: const BoxDecoration(
           color: Colors.white,
@@ -104,7 +145,7 @@ class GridItem extends StatelessWidget {
                 topLeft: Radius.circular(26))),
         child: InkWell(
           onTap: () {
-            print('Add icon pressed');
+            print('Hello');
             // add function
           },
           child: const Padding(

@@ -2,22 +2,34 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:star_coffee/constants/app_paths.dart';
+import 'package:star_coffee/ui/cart.dart';
 import 'package:star_coffee/ui/components/clip_bottom_bar.dart';
 import 'package:star_coffee/ui/components/drinks_grid.dart';
 import '../constants/app_colors.dart';
 import '../constants/app_strings.dart';
 import '../constants/app_styles.dart';
+import '../data/drink.dart';
+import 'drink_details.dart';
 
 class HomePage extends StatelessWidget {
+  // late BuildContext context;
   int _selectedCategory = 0;
   int _selectedPage = 0;
-  late BuildContext context;
+  late Size screenSize;
+  late double navRailWidth;
+  late double navRailHeight;
+  late double appBarHeight;
 
   HomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    this.context = context;
+    // this.context = context;
+    screenSize = MediaQuery.of(context).size;
+    appBarHeight = 80;
+    navRailWidth = screenSize.width * 0.15;
+    navRailHeight = (screenSize.height - appBarHeight) * 0.84;
+
     return Scaffold(
       backgroundColor: AppColors.background,
       appBar: buildAppBar(),
@@ -26,8 +38,11 @@ class HomePage extends StatelessWidget {
     );
   }
 
+  menuFunction() {}
+
   buildAppBar() {
-    Widget menuIcon = _buildIconButton('menu', AppPaths.menuIcon, 16);
+    Widget menuIcon =
+        _buildIconButton('menu', AppPaths.menuIcon, 16, menuFunction);
     Widget searchIcon = _buildIconButton('search', AppPaths.searchIcon, 24);
     return AppBar(
       systemOverlayStyle: const SystemUiOverlayStyle(
@@ -35,7 +50,7 @@ class HomePage extends StatelessWidget {
         statusBarIconBrightness: Brightness.dark,
         systemNavigationBarColor: AppColors.secondary,
       ),
-      toolbarHeight: 80,
+      toolbarHeight: appBarHeight,
       leadingWidth: 80,
       leading: menuIcon,
       centerTitle: true,
@@ -64,28 +79,28 @@ class HomePage extends StatelessWidget {
   }
 
   buildBody() {
-    return NestedScrollView(
-      headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
-        return <Widget>[
-          SliverOverlapAbsorber(
-            handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
-            sliver: SliverAppBar(
-              elevation: 0,
-              expandedHeight: 90,
-              backgroundColor: AppColors.background,
-              title: buildWelcomeText(),
-              forceElevated: innerBoxIsScrolled,
-              pinned: false,
-            ),
-          ),
-        ];
-      },
-      body: Stack(
-        children: [
-          buildNavRailWithGrid(),
-          buildBottomNavBar(),
-          buildHomeButton(),
-        ],
+    return Stack(
+      children: [
+        Cart(),
+        // browseDrinks(),
+        // buildNavRail(),
+        buildBottomNavBar(),
+        buildHomeButton(),
+      ],
+    );
+  }
+
+  browseDrinks() {
+    return SingleChildScrollView(
+      physics: const BouncingScrollPhysics(),
+      child: Expanded(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            buildWelcomeText(),
+            buildDrinksGrid(),
+          ],
+        ),
       ),
     );
   }
@@ -95,7 +110,7 @@ class HomePage extends StatelessWidget {
         style: AppStyles.getTextStyle(16, AppColors.primaryLight, 'Poppins'));
     Widget name = Text(AppStrings.name, style: AppStyles.getTextStyle(20));
     return Padding(
-      padding: const EdgeInsets.all(12),
+      padding: const EdgeInsets.only(bottom: 36, left: 28),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -107,39 +122,54 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  buildNavRailWithGrid() {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.end,
-      children: [
-        Expanded(flex: 1, child: buildNavigationRail()),
-        Expanded(flex: 6, child: DrinksGrid())
-      ],
+  buildDrinksGrid() {
+    return Padding(
+      padding: EdgeInsets.only(left: navRailWidth),
+      child: DrinksGrid(
+        drinks: [
+          Drink.dump0(),
+          Drink.dump1(),
+          Drink.dump2(),
+          Drink.dump3(),
+          Drink.dump4(),
+          Drink.dump1(),
+          Drink.dump3(),
+          Drink.dump2(),
+          Drink.dump0(),
+          Drink.dump4(),
+        ],
+      ),
     );
   }
 
-  buildNavigationRail() {
-    return Container(
-      clipBehavior: Clip.antiAlias,
-      decoration: const BoxDecoration(
-          borderRadius: BorderRadius.only(topRight: Radius.circular(38))),
-      child: NavigationRail(
-        backgroundColor: AppColors.primary,
-        labelType: NavigationRailLabelType.all,
-        selectedLabelTextStyle: AppStyles.getTextStyle(16, Colors.white),
-        unselectedLabelTextStyle:
-            AppStyles.getTextStyle(16, AppColors.primaryLight),
-        selectedIndex: _selectedCategory,
-        onDestinationSelected: (int index) {
-          _selectedCategory = index;
-          print('_selectedCategory: $_selectedCategory');
-        },
-        destinations: [
-          buildNavRailDestination('Hot Tea'),
-          buildNavRailDestination('Hot Tea'),
-          buildNavRailDestination('Hot Tea'),
-          buildNavRailDestination('Hot Tea'),
-          buildNavRailDestination('Hot Tea'),
-        ],
+  buildNavRail() {
+    return Align(
+      alignment: Alignment.bottomLeft,
+      child: Container(
+        width: navRailWidth,
+        height: navRailHeight,
+        clipBehavior: Clip.antiAlias,
+        decoration: const BoxDecoration(
+            borderRadius: BorderRadius.only(topRight: Radius.circular(38))),
+        child: NavigationRail(
+          backgroundColor: AppColors.primary,
+          labelType: NavigationRailLabelType.all,
+          selectedLabelTextStyle: AppStyles.getTextStyle(16, Colors.white),
+          unselectedLabelTextStyle:
+              AppStyles.getTextStyle(16, AppColors.primaryLight),
+          selectedIndex: _selectedCategory,
+          onDestinationSelected: (int index) {
+            _selectedCategory = index;
+            print('_selectedCategory: $_selectedCategory');
+          },
+          destinations: [
+            buildNavRailDestination('Hot Tea'),
+            buildNavRailDestination('Hot Tea'),
+            buildNavRailDestination('Hot Tea'),
+            buildNavRailDestination('Hot Tea'),
+            buildNavRailDestination('Hot Tea'),
+          ],
+        ),
       ),
     );
   }
@@ -206,7 +236,7 @@ class HomePage extends StatelessWidget {
   buildHomeButton() {
     return Positioned(
       bottom: 24,
-      width: MediaQuery.of(context).size.width,
+      width: screenSize.width,
       child: Align(
         alignment: Alignment.center,
         child: TextButton(

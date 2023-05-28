@@ -19,8 +19,9 @@ class AppStyles {
 
   static getTextStyle([double? size, Color? color, String? family]) {
     return TextStyle(
-        fontFamily: family ?? 'Archivo',
-        fontSize: size ?? 18,
-        color: color ?? AppColors.secondary);
+      fontFamily: family ?? 'Archivo',
+      fontSize: size ?? 18,
+      color: color ?? AppColors.secondary,
+    );
   }
 }
