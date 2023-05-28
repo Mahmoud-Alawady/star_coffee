@@ -26,9 +26,9 @@ class DrinksGrid extends StatelessWidget {
 
     return GridView.builder(
       padding: const EdgeInsets.only(bottom: 140, left: 10, right: 10),
-      // physics: const BouncingScrollPhysics(),
-      physics: const NeverScrollableScrollPhysics(),
-      shrinkWrap: true,
+      physics: const BouncingScrollPhysics(),
+      // physics: const NeverScrollableScrollPhysics(),
+      // shrinkWrap: true,
       itemCount: drinks!.length,
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: MediaQuery.of(context).size.width < 600 ? 2 : 4,

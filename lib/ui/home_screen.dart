@@ -81,9 +81,9 @@ class HomePage extends StatelessWidget {
   buildBody() {
     return Stack(
       children: [
-        Cart(),
-        // browseDrinks(),
-        // buildNavRail(),
+        // Cart(),
+        browseDrinks(),
+        buildNavRail(),
         buildBottomNavBar(),
         buildHomeButton(),
       ],
@@ -91,17 +91,17 @@ class HomePage extends StatelessWidget {
   }
 
   browseDrinks() {
-    return SingleChildScrollView(
-      physics: const BouncingScrollPhysics(),
-      child: Expanded(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            buildWelcomeText(),
-            buildDrinksGrid(),
-          ],
-        ),
-      ),
+    return
+        // SingleChildScrollView(
+        //   physics: const BouncingScrollPhysics(),
+        //   child: Expanded(
+        //     child:
+        Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        buildWelcomeText(),
+        Expanded(child: buildDrinksGrid()),
+      ],
     );
   }
 
