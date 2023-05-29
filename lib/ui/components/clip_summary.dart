@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-class ClipBottomBar extends CustomClipper<Path> {
+class ClipSummary extends CustomClipper<Path> {
   @override
   Path getClip(Size size) {
-    double arcY = size.height * 0.6;
+    double arcY = size.height * 0.2;
 
     Path path = Path();
     path.moveTo(size.width, size.height);

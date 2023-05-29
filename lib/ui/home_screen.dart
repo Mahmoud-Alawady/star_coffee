@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:star_coffee/constants/app_paths.dart';
 import 'package:star_coffee/ui/cart.dart';
+import 'package:star_coffee/ui/components/app_components.dart';
 import 'package:star_coffee/ui/components/clip_bottom_bar.dart';
 import 'package:star_coffee/ui/components/drinks_grid.dart';
 import '../constants/app_colors.dart';
@@ -12,23 +13,22 @@ import '../data/drink.dart';
 import 'drink_details.dart';
 
 class HomePage extends StatelessWidget {
-  // late BuildContext context;
   int _selectedCategory = 0;
   int _selectedPage = 0;
   late Size screenSize;
   late double navRailWidth;
   late double navRailHeight;
-  late double appBarHeight;
+
+  late BuildContext context;
 
   HomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    // this.context = context;
+    this.context = context;
     screenSize = MediaQuery.of(context).size;
-    appBarHeight = 80;
     navRailWidth = screenSize.width * 0.15;
-    navRailHeight = (screenSize.height - appBarHeight) * 0.84;
+    navRailHeight = (screenSize.height - MyAppComponents.appBarHeight) * 0.84;
 
     return Scaffold(
       backgroundColor: AppColors.background,
@@ -41,40 +41,20 @@ class HomePage extends StatelessWidget {
   menuFunction() {}
 
   buildAppBar() {
-    Widget menuIcon =
-        _buildIconButton('menu', AppPaths.menuIcon, 16, menuFunction);
-    Widget searchIcon = _buildIconButton('search', AppPaths.searchIcon, 24);
-    return AppBar(
-      systemOverlayStyle: const SystemUiOverlayStyle(
-        statusBarColor: AppColors.background,
-        statusBarIconBrightness: Brightness.dark,
-        systemNavigationBarColor: AppColors.secondary,
-      ),
-      toolbarHeight: appBarHeight,
-      leadingWidth: 80,
-      leading: menuIcon,
-      centerTitle: true,
-      title: Text('StarCoffee', style: AppStyles.getTextStyle(22)),
-      actions: [searchIcon],
-      backgroundColor: AppColors.background,
-      elevation: 0,
+    Widget menuIcon = MyAppComponents.buildIconButton(
+      label: 'menu',
+      icon: AppPaths.menuIcon,
+      function: menuFunction,
     );
-  }
-
-  _buildIconButton(
-      [String? label, String? icon, double? size, VoidCallback? function]) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 12),
-      child: IconButton(
-        icon: SvgPicture.asset(
-          icon!,
-          height: size ?? 24,
-          width: size ?? 24,
-          semanticsLabel: label,
-          fit: BoxFit.contain,
-        ),
-        onPressed: function,
-      ),
+    Widget searchIcon = MyAppComponents.buildIconButton(
+      label: 'search',
+      icon: AppPaths.searchIcon,
+      function: () {},
+    );
+    return MyAppComponents.myAppBar(
+      myLeading: menuIcon,
+      myTitle: 'StarCoffee',
+      myActions: [searchIcon],
     );
   }
 
@@ -203,7 +183,13 @@ class HomePage extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.end,
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              buildNavBarIcon(AppPaths.cartIcon, 1),
+              buildNavBarIcon(AppPaths.cartIcon, 1, function: () {
+                Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) {
+                    return Cart();
+                  },
+                ));
+              }),
               buildNavBarIcon(AppPaths.bookIcon, 2),
               const SizedBox(width: 80),
               buildNavBarIcon(AppPaths.heartIcon, 3),
@@ -215,14 +201,15 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  buildNavBarIcon(String icon, int index) {
+  buildNavBarIcon(String icon, int index, {VoidCallback? function}) {
     return IconButton(
       padding:
           const EdgeInsets.only(bottom: 22), //nav bar icons bottom elevation
-      onPressed: () {
-        _selectedPage = index;
-        print('_selectedPage: $_selectedPage');
-      },
+      onPressed: function ??
+          () {
+            _selectedPage = index;
+            print('_selectedPage: $_selectedPage');
+          },
       icon: SvgPicture.asset(
         icon,
         theme: const SvgTheme(currentColor: AppColors.background),

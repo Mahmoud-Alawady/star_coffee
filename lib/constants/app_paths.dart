@@ -7,6 +7,7 @@ class AppPaths {
   static const String searchIcon = 'assets/icons/search_icon.svg';
   static const String menuIcon = 'assets/icons/menu_icon.svg';
   static const String backIcon = 'assets/icons/back_icon.svg';
+  static const String editIcon = 'assets/icons/edit_icon.svg';
   static const String plus = 'assets/icons/plus.svg';
   static const String minus = 'assets/icons/minus.svg';
   static const String addToFav = 'assets/icons/add_to_fav.svg';

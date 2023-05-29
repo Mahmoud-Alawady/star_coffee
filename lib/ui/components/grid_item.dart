@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:star_coffee/data/cart_database.dart';
+import 'package:star_coffee/data/cart_item.dart';
 import 'package:star_coffee/ui/drink_details.dart';
 import '../../constants/app_colors.dart';
 import '../../constants/app_styles.dart';
@@ -17,7 +19,7 @@ class GridItem extends StatelessWidget {
         onTap: () {
           Navigator.of(context).push(MaterialPageRoute(
             builder: (context) {
-              return DrinkDetails(drink: drink);
+              return DrinkDetails.fromHome(drink: drink);
             },
           ));
         },
@@ -104,8 +106,9 @@ class GridItem extends StatelessWidget {
                 topLeft: Radius.circular(26))),
         child: InkWell(
           onTap: () {
-            print('Add icon pressed');
-            // add function
+            CartDatabase.insertRecord(
+                cartItem: CartItem(
+                    drink: drink, milkAmount: 50, size: 1, quantity: 1));
           },
           child: const Padding(
             padding: EdgeInsets.all(8),

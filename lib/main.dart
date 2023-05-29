@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:star_coffee/constants/app_colors.dart';
 import 'package:star_coffee/constants/app_strings.dart';
+import 'package:star_coffee/ui/cart.dart';
 import 'package:star_coffee/ui/home_screen.dart';
 
 void main() {

@@ -7,6 +7,7 @@ import 'package:star_coffee/constants/app_paths.dart';
 import 'package:star_coffee/constants/app_styles.dart';
 import 'package:star_coffee/data/cart_database.dart';
 import 'package:star_coffee/data/cart_item.dart';
+import 'package:star_coffee/ui/components/app_components.dart';
 import 'package:star_coffee/ui/components/clip_drink_image.dart';
 import '../data/drink.dart';
 import 'components/clip_bottom_bar.dart';
@@ -14,14 +15,21 @@ import 'package:sleek_circular_slider/sleek_circular_slider.dart';
 import 'package:sqflite/sqflite.dart';
 
 class DrinkDetails extends StatelessWidget {
-  final Drink _drink;
-  CartItem _cartItem;
+  final bool edit;
+  // Drink drink;
+  CartItem cartItem;
+
   late BuildContext context;
 
-  DrinkDetails({drink, super.key})
-      : _drink = drink,
-        _cartItem =
-            CartItem(drink: drink, milkAmount: 50, size: 1, quantity: 1);
+  // DrinkDetails(this.edit, {drink, cartItem, super.key})
+  //     : _drink = drink,
+  //       _cartItem = cartItem ??
+  //           CartItem(drink: drink, milkAmount: 50, size: 1, quantity: 1);
+
+  DrinkDetails.fromCart({super.key, required this.cartItem}) : edit = true;
+  DrinkDetails.fromHome({super.key, required Drink drink})
+      : edit = false,
+        cartItem = CartItem(drink: drink, milkAmount: 50, size: 1, quantity: 1);
 
   @override
   Widget build(BuildContext context) {
@@ -96,46 +104,20 @@ class DrinkDetails extends StatelessWidget {
       child: SizedBox(
         height: MediaQuery.of(context).size.height * 0.45,
         width: MediaQuery.of(context).size.width,
-        child: Image.network(_drink.image, fit: BoxFit.cover),
+        child: Image.network(cartItem.drink.image, fit: BoxFit.cover),
       ),
     );
   }
 
   buildBottomBar() {
-    return Align(
-      alignment: Alignment.bottomCenter,
-      child: ClipPath(
-        clipBehavior: Clip.antiAlias,
-        clipper: ClipBottomBar(),
-        child: InkWell(
-          onTap: () {
-            CartDatabase.insertRecord(
-              _drink.image,
-              _drink.title,
-              _drink.subtitle,
-              _drink.price,
-              _drink.rate,
-              _cartItem.milkAmount,
-              _cartItem.size,
-              _cartItem.quantity,
-            );
-          },
-          child: Container(
-            height: 120,
-            width: MediaQuery.of(context).size.width,
-            color: AppColors.secondary,
-            child: Align(
-              alignment: Alignment.bottomCenter,
-              child: Text(
-                '\$ ${_drink.price}\nAdd to cart',
-                style: AppStyles.getTextStyle(18, AppColors.background)
-                    .copyWith(height: 1.5),
-                textAlign: TextAlign.center,
-              ),
-            ),
-          ),
-        ),
-      ),
+    return MyAppComponents.myBottomBar(
+      context: context,
+      text: '\$ ${cartItem.drink.price}\nAdd to cart',
+      function: () {
+        edit
+            ? CartDatabase.editRecord(cartItem: cartItem)
+            : CartDatabase.insertRecord(cartItem: cartItem);
+      },
     );
   }
 
@@ -145,8 +127,8 @@ class DrinkDetails extends StatelessWidget {
       max: 100,
       initialValue: 50,
       onChange: (double value) {
-        _cartItem.milkAmount = value;
-        print('milkAmount: ${_cartItem.milkAmount}');
+        cartItem.milkAmount = value;
+        print('milkAmount: ${cartItem.milkAmount}');
       },
       onChangeStart: (double startValue) {
         // callback providing a starting value (when a pan gesture starts)
@@ -157,7 +139,7 @@ class DrinkDetails extends StatelessWidget {
       innerWidget: (_) {
         return Center(
             child: Text(
-          '${_cartItem.milkAmount.round()}%\nMilk',
+          '${cartItem.milkAmount.round()}%\nMilk',
           style: AppStyles.getTextStyle(16, AppColors.primary),
         ));
       },
@@ -196,11 +178,11 @@ class DrinkDetails extends StatelessWidget {
       padding: buttonPadding,
       icon: SvgPicture.asset(AppPaths.addToFav),
       onPressed: () async {
-        await CartDatabase.getRecord();
+        await CartDatabase.getCartItems();
       },
     );
     Widget name = Text(
-      _drink.title,
+      cartItem.drink.title,
       style: AppStyles.getTextStyle(20, Colors.white),
     );
     return Positioned(
@@ -225,7 +207,7 @@ class DrinkDetails extends StatelessWidget {
         children: [
           buildQuantityEdit(false),
           Text(
-            _cartItem.quantity.toString(),
+            cartItem.quantity.toString(),
             style: AppStyles.getTextStyle(),
           ),
           buildQuantityEdit(true),
@@ -238,11 +220,11 @@ class DrinkDetails extends StatelessWidget {
     return IconButton(
         onPressed: () {
           increase
-              ? _cartItem.quantity++
-              : (_cartItem.quantity > 1)
-                  ? _cartItem.quantity--
+              ? cartItem.quantity++
+              : (cartItem.quantity > 1)
+                  ? cartItem.quantity--
                   : print('can\'t have less that 1');
-          print('quantity: ${_cartItem.quantity}');
+          print('quantity: ${cartItem.quantity}');
         },
         icon: SvgPicture.asset(increase ? AppPaths.plus : AppPaths.minus));
   }
@@ -272,7 +254,7 @@ class DrinkDetails extends StatelessWidget {
         ),
         Text(sizeTitle[i],
             style: AppStyles.getTextStyle(14,
-                _cartItem.size == i ? Colors.black : Colors.grey, 'Poppins')),
+                cartItem.size == i ? Colors.black : Colors.grey, 'Poppins')),
       ],
     );
   }
@@ -280,11 +262,11 @@ class DrinkDetails extends StatelessWidget {
   buildSizeIcon(int i) {
     return Material(
       borderRadius: const BorderRadius.all(Radius.circular(20)),
-      color: (_cartItem.size == i) ? AppColors.primary : Colors.white,
+      color: (cartItem.size == i) ? AppColors.primary : Colors.white,
       child: InkWell(
         onTap: () {
-          _cartItem.size = i;
-          print('selectedSize: ${_cartItem.size}');
+          cartItem.size = i;
+          print('selectedSize: ${cartItem.size}');
         },
         child: Ink(
           height: 72.0 + i * 16,
@@ -292,7 +274,7 @@ class DrinkDetails extends StatelessWidget {
           padding: const EdgeInsets.all(24),
           child: SvgPicture.asset(
             AppPaths.cup,
-            colorFilter: (_cartItem.size == i)
+            colorFilter: (cartItem.size == i)
                 ? const ColorFilter.mode(Colors.white, BlendMode.srcATop)
                 : const ColorFilter.mode(AppColors.primary, BlendMode.srcATop),
           ),
@@ -301,32 +283,3 @@ class DrinkDetails extends StatelessWidget {
     );
   }
 }
-
-// class BasePainter extends CustomPainter {
-//   Color baseColor;
-
-//   late Offset center;
-//   late double radius;
-
-//   BasePainter({required this.baseColor});
-
-//   @override
-//   void paint(Canvas canvas, Size size) {
-//     Paint paint = Paint()
-//       ..color = baseColor
-//       ..strokeCap = StrokeCap.round
-//       ..style = PaintingStyle.stroke
-//       ..strokeWidth = 12.0;
-
-//     center = Offset(size.width / 2, size.height / 2);
-//     // radius = min(size.width / 2, size.height / 2);
-//     radius = size.width / 2;
-
-//     canvas.drawCircle(center, radius, paint);
-//   }
-
-//   @override
-//   bool shouldRepaint(CustomPainter oldDelegate) {
-//     return false;
-//   }
-// }
