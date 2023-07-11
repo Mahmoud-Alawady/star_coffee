@@ -1,25 +1,34 @@
 import 'package:flutter/material.dart';
-import 'package:star_coffee/data/cart_database.dart';
-import 'package:star_coffee/data/cart_item.dart';
-import 'package:star_coffee/ui/drink_details.dart';
+import 'package:provider/provider.dart';
+import 'package:star_coffee/constants/app_strings.dart';
+import 'package:star_coffee/presentation/drink_details.dart';
 import '../../constants/app_colors.dart';
 import '../../constants/app_styles.dart';
 import '../../data/drink.dart';
+import '../../providers/cart_items_provider.dart';
 
-class GridItem extends StatelessWidget {
+class DrinksGridItem extends StatelessWidget {
   final Drink drink;
+  final int index;
+  final String imageTag;
+  late BuildContext context;
 
-  const GridItem(this.drink, {super.key});
+  DrinksGridItem(this.drink, this.index, {super.key})
+      : imageTag = AppStrings.gridImageTag + index.toString();
 
   @override
   Widget build(BuildContext context) {
+    this.context = context;
     return Padding(
       padding: const EdgeInsets.only(top: 45, bottom: 5),
       child: InkWell(
         onTap: () {
           Navigator.of(context).push(MaterialPageRoute(
             builder: (context) {
-              return DrinkDetails.fromHome(drink: drink);
+              return DrinkDetails.fromHome(
+                drink: drink,
+                imageTag: imageTag,
+              );
             },
           ));
         },
@@ -41,12 +50,15 @@ class GridItem extends StatelessWidget {
       right: 0,
       child: Align(
         alignment: Alignment.center,
-        child: ClipOval(
-          child: Image.network(
-            drink.image,
-            fit: BoxFit.cover,
-            height: 90,
-            width: 90,
+        child: Hero(
+          tag: imageTag,
+          child: ClipOval(
+            child: Image.network(
+              drink.image,
+              fit: BoxFit.cover,
+              height: 90,
+              width: 90,
+            ),
           ),
         ),
       ),
@@ -96,19 +108,20 @@ class GridItem extends StatelessWidget {
   }
 
   buildAddIcon() {
+    const roundBorder = BorderRadius.only(
+        bottomRight: Radius.circular(26), topLeft: Radius.circular(26));
+
     return Align(
       alignment: Alignment.bottomRight,
       child: Container(
         decoration: const BoxDecoration(
-            color: AppColors.primary,
-            borderRadius: BorderRadius.only(
-                bottomRight: Radius.circular(26),
-                topLeft: Radius.circular(26))),
+          color: AppColors.primary,
+          borderRadius: roundBorder,
+        ),
         child: InkWell(
+          borderRadius: roundBorder,
           onTap: () {
-            CartDatabase.insertRecord(
-                cartItem: CartItem(
-                    drink: drink, milkAmount: 50, size: 1, quantity: 1));
+            context.read<CartItemsProvider>().insertItemQuick(drink: drink);
           },
           child: const Padding(
             padding: EdgeInsets.all(8),

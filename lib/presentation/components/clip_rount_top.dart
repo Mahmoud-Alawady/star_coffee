@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-class ClipSummary extends CustomClipper<Path> {
+class ClipRoundTop extends CustomClipper<Path> {
   @override
   Path getClip(Size size) {
-    double arcY = size.height * 0.2;
-
     Path path = Path();
+    double arcY = 72.0;
+
     path.moveTo(size.width, size.height);
     path.lineTo(0, size.height);
     path.lineTo(0, arcY);

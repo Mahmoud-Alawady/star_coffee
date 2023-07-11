@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
 import 'package:star_coffee/constants/app_colors.dart';
 import 'package:star_coffee/constants/app_strings.dart';
-import 'package:star_coffee/ui/cart.dart';
-import 'package:star_coffee/ui/home_screen.dart';
+import 'package:star_coffee/presentation/home_screen.dart';
+import 'package:star_coffee/providers/cart_items_provider.dart';
 
 void main() {
   runApp(const MyApp());
@@ -20,73 +21,19 @@ class MyApp extends StatelessWidget {
       statusBarColor: AppColors.background,
       statusBarIconBrightness: Brightness.dark,
     ));
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: AppStrings.appTitle,
-      theme: ThemeData(
-        primaryColor: AppColors.primary,
-      ),
-      home: HomePage(),
-    );
-  }
-}
 
-// import 'package:flutter/material.dart';
-
-// void main() {
-//   runApp(
-//     const MaterialApp(
-//       home: Page1(),
-//     ),
-//   );
-// }
-
-class Page1 extends StatelessWidget {
-  const Page1({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(),
-      body: Center(
-        child: ElevatedButton(
-          onPressed: () {
-            Navigator.of(context).push(_createRoute());
-          },
-          child: const Text('Go!'),
+    return MultiProvider(
+      providers: [
+        // ChangeNotifierProvider(create: (context) => PriceSummary()),
+        ChangeNotifierProvider(create: (context) => CartItemsProvider()),
+      ],
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: AppStrings.appTitle,
+        theme: ThemeData(
+          primaryColor: AppColors.primary,
         ),
-      ),
-    );
-  }
-}
-
-Route _createRoute() {
-  return PageRouteBuilder(
-    pageBuilder: (context, animation, secondaryAnimation) => const Page2(),
-    transitionsBuilder: (context, animation, secondaryAnimation, child) {
-      const begin = Offset(0.0, 1.0);
-      const end = Offset.zero;
-      const curve = Curves.ease;
-
-      var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
-
-      return SlideTransition(
-        position: animation.drive(tween),
-        child: child,
-      );
-    },
-  );
-}
-
-class Page2 extends StatelessWidget {
-  const Page2({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(),
-      body: const Center(
-        child: Text('Page 2'),
+        home: HomePage(),
       ),
     );
   }

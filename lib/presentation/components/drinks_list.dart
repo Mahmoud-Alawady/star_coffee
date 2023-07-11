@@ -1,18 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:star_coffee/data/cart_item.dart';
-import '../../constants/app_colors.dart';
-import '../../constants/app_paths.dart';
-import '../../constants/app_styles.dart';
-import '../drink_details.dart';
-import 'cart_list_item.dart';
+import 'drinks_list_item.dart';
 
-class CartDrinksList extends StatelessWidget {
+class DrinksList extends StatelessWidget {
   List<CartItem>? cartItems;
+
   late Size screenSize;
   double horizontalPadding = 14;
 
-  CartDrinksList({
+  DrinksList({
     super.key,
     required this.cartItems,
   });
@@ -29,7 +25,7 @@ class CartDrinksList extends StatelessWidget {
       shrinkWrap: true,
       itemCount: cartItems!.length,
       itemBuilder: (context, index) {
-        return CartListItem(cartItem: cartItems![index]);
+        return DrinksListItem(cartItem: cartItems![index], index: index);
       },
     );
   }

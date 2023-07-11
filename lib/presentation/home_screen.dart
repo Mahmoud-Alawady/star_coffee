@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:star_coffee/constants/app_paths.dart';
-import 'package:star_coffee/ui/cart.dart';
-import 'package:star_coffee/ui/components/app_components.dart';
-import 'package:star_coffee/ui/components/clip_bottom_bar.dart';
-import 'package:star_coffee/ui/components/drinks_grid.dart';
+import 'package:star_coffee/presentation/cart.dart';
+import 'package:star_coffee/presentation/components/clip_rount_top.dart';
+import 'package:star_coffee/presentation/components/drinks_grid.dart';
 import '../constants/app_colors.dart';
+import '../constants/app_sizes.dart';
 import '../constants/app_strings.dart';
 import '../constants/app_styles.dart';
 import '../data/drink.dart';
-import 'drink_details.dart';
+import 'components/custom_app_bar.dart';
+import 'components/custom_icon_button.dart';
 
 class HomePage extends StatelessWidget {
   int _selectedCategory = 0;
@@ -28,7 +28,7 @@ class HomePage extends StatelessWidget {
     this.context = context;
     screenSize = MediaQuery.of(context).size;
     navRailWidth = screenSize.width * 0.15;
-    navRailHeight = (screenSize.height - MyAppComponents.appBarHeight) * 0.84;
+    navRailHeight = (screenSize.height - AppSizes.appBarHeight) * 0.84;
 
     return Scaffold(
       backgroundColor: AppColors.background,
@@ -41,17 +41,17 @@ class HomePage extends StatelessWidget {
   menuFunction() {}
 
   buildAppBar() {
-    Widget menuIcon = MyAppComponents.buildIconButton(
+    Widget menuIcon = CustomIconButton(
       label: 'menu',
       icon: AppPaths.menuIcon,
       function: menuFunction,
     );
-    Widget searchIcon = MyAppComponents.buildIconButton(
+    Widget searchIcon = CustomIconButton(
       label: 'search',
       icon: AppPaths.searchIcon,
       function: () {},
     );
-    return MyAppComponents.myAppBar(
+    return CustomAppBar(
       myLeading: menuIcon,
       myTitle: 'StarCoffee',
       myActions: [searchIcon],
@@ -71,12 +71,7 @@ class HomePage extends StatelessWidget {
   }
 
   browseDrinks() {
-    return
-        // SingleChildScrollView(
-        //   physics: const BouncingScrollPhysics(),
-        //   child: Expanded(
-        //     child:
-        Column(
+    return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         buildWelcomeText(),
@@ -154,17 +149,14 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  buildNavRailDestination(String text, [double? padding]) {
+  buildNavRailDestination(String text) {
     return NavigationRailDestination(
       icon: const SizedBox.shrink(),
-      label: Padding(
-        padding: EdgeInsets.symmetric(vertical: padding ?? 0),
-        child: RotatedBox(
-          quarterTurns: -1,
-          child: Text(
-            text,
-            maxLines: 1,
-          ),
+      label: RotatedBox(
+        quarterTurns: -1,
+        child: Text(
+          text,
+          maxLines: 1,
         ),
       ),
     );
@@ -175,7 +167,7 @@ class HomePage extends StatelessWidget {
       alignment: Alignment.bottomCenter,
       child: ClipPath(
         clipBehavior: Clip.antiAlias,
-        clipper: ClipBottomBar(),
+        clipper: ClipRoundTop(),
         child: Container(
           height: 120,
           color: AppColors.secondary,

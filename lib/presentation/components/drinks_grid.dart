@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../data/drink.dart';
-import 'grid_item.dart';
+import 'drinks_grid_item.dart';
 
 class DrinksGrid extends StatelessWidget {
   List<Drink>? drinks = [];
@@ -19,7 +19,7 @@ class DrinksGrid extends StatelessWidget {
         mainAxisExtent: 225,
       ),
       itemBuilder: (context, index) {
-        return GridItem(drinks![index]);
+        return DrinksGridItem(drinks![index], index);
       },
     );
   }
