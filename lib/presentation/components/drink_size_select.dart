@@ -4,11 +4,14 @@ import '../../constants/app_colors.dart';
 import '../../constants/app_paths.dart';
 import '../../constants/app_styles.dart';
 
-typedef IntCallback = void Function(int newSize);
+// another way to make a class accept a function
+// typedef IntCallback = void Function(int newSize);
 
 class DrinkSizeSelect extends StatefulWidget {
+  // another way to make a class accept a function cont.
+  // final IntCallback onSizeSelected;
   int size;
-  final IntCallback onSizeSelected;
+  final void Function(int newSize) onSizeSelected;
 
   DrinkSizeSelect({
     required this.size,
@@ -41,7 +44,7 @@ class _DrinkSizeSelectState extends State<DrinkSizeSelect> {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         SizedBox(
-          height: 120,
+          height: 100,
           child: Center(
             child: buildSizeIcon(i),
           ),
@@ -69,8 +72,8 @@ class _DrinkSizeSelectState extends State<DrinkSizeSelect> {
         },
         borderRadius: roundBorder,
         child: Ink(
-          height: 78.0 + i * 12,
-          width: 78.0 + i * 12,
+          height: 70.0 + i * 11,
+          width: 70.0 + i * 11,
           padding: const EdgeInsets.all(24),
           child: SvgPicture.asset(
             AppPaths.cup,

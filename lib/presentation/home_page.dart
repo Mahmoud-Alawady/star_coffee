@@ -5,7 +5,7 @@ import 'package:star_coffee/presentation/cart.dart';
 import 'package:star_coffee/presentation/components/clip_rount_top.dart';
 import 'package:star_coffee/presentation/components/drinks_grid.dart';
 import '../constants/app_colors.dart';
-import '../constants/app_sizes.dart';
+import 'package:star_coffee/constants/globals.dart' as globals;
 import '../constants/app_strings.dart';
 import '../constants/app_styles.dart';
 import '../data/drink.dart';
@@ -28,7 +28,7 @@ class HomePage extends StatelessWidget {
     this.context = context;
     screenSize = MediaQuery.of(context).size;
     navRailWidth = screenSize.width * 0.15;
-    navRailHeight = (screenSize.height - AppSizes.appBarHeight) * 0.84;
+    navRailHeight = (screenSize.height - globals.appBarHeight) * 0.84;
 
     return Scaffold(
       backgroundColor: AppColors.background,
@@ -54,7 +54,7 @@ class HomePage extends StatelessWidget {
     return CustomAppBar(
       myLeading: menuIcon,
       myTitle: 'StarCoffee',
-      myActions: [searchIcon],
+      myActions: searchIcon,
     );
   }
 
@@ -83,7 +83,8 @@ class HomePage extends StatelessWidget {
   buildWelcomeText() {
     Widget welcome = Text(AppStrings.welcome,
         style: AppStyles.getTextStyle(16, AppColors.primaryLight, 'Poppins'));
-    Widget name = Text(AppStrings.name, style: AppStyles.getTextStyle(20));
+    Widget name =
+        Text(AppStrings.nameExample, style: AppStyles.getTextStyle(20));
     return Padding(
       padding: const EdgeInsets.only(bottom: 36, left: 28),
       child: Column(
@@ -138,11 +139,10 @@ class HomePage extends StatelessWidget {
             print('_selectedCategory: $_selectedCategory');
           },
           destinations: [
+            buildNavRailDestination('Coffee'),
+            buildNavRailDestination('Chocolate'),
             buildNavRailDestination('Hot Tea'),
-            buildNavRailDestination('Hot Tea'),
-            buildNavRailDestination('Hot Tea'),
-            buildNavRailDestination('Hot Tea'),
-            buildNavRailDestination('Hot Tea'),
+            buildNavRailDestination('Iced Tea'),
           ],
         ),
       ),

@@ -23,19 +23,18 @@ class QuantitySelect extends StatefulWidget {
 class _QuantitySelectState extends State<QuantitySelect> {
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.only(top: widget.miniSize ? 0 : 12),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          buildQuantityEdit(false),
-          Text(
-            widget.quantity.toString(),
-            style: AppStyles.getTextStyle(widget.miniSize ? 16 : null),
-          ),
-          buildQuantityEdit(true),
-        ],
-      ),
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        buildQuantityEdit(false),
+        Text(
+          widget.quantity.toString(),
+          style: widget.miniSize
+              ? AppStyles.getTextStyle(16)
+              : AppStyles.getTextStyle(),
+        ),
+        buildQuantityEdit(true),
+      ],
     );
   }
 

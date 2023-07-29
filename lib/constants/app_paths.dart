@@ -14,4 +14,9 @@ class AppPaths {
   static const String cup = 'assets/icons/cup.svg';
   static const String drink = 'assets/images/coffee.png';
   static const String drink2 = 'assets/images/coffee2.jpg';
+  static const String welcomeIcon = 'assets/icons/welcome_icon.svg';
+  static const String googleIcon = 'assets/icons/google_icon.svg';
+  static const String facebookIcon = 'assets/icons/facebook_icon.svg';
+  static const String twitterIcon = 'assets/icons/twitter_icon.svg';
+  static const String sliderThumbIcon = 'assets/icons/slider_thumb_icon.svg';
 }

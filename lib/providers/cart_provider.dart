@@ -7,8 +7,9 @@ import '../data/price_summary_model.dart';
 
 // enum CartState { initial, loaded, error }
 
-class CartItemsProvider with ChangeNotifier {
+class CartProvider with ChangeNotifier {
   bool _itemsLoaded = false;
+  bool _editMode = false;
   List<CartItem> _itemsList = [];
 
   bool get itemsLoaded => _itemsLoaded;
@@ -50,5 +51,10 @@ class CartItemsProvider with ChangeNotifier {
   void deleteDB() async {
     await CartDatabase.deleteDB();
     getCartItemsFromDB();
+  }
+
+  set editMode(bool isEnabled) {
+    _editMode = isEnabled;
+    notifyListeners();
   }
 }

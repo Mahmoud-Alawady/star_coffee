@@ -9,8 +9,10 @@ import 'package:star_coffee/data/cart_database.dart';
 import 'package:star_coffee/data/cart_item.dart';
 import 'package:star_coffee/presentation/components/bottom_bar.dart';
 import 'package:star_coffee/presentation/components/clip_round_bottom.dart';
-import 'package:star_coffee/providers/cart_items_provider.dart';
+import 'package:star_coffee/presentation/components/no_glow_scroll_behavior.dart';
+import 'package:star_coffee/providers/cart_provider.dart';
 import '../data/drink.dart';
+import 'components/custom_slider.dart';
 import 'components/drink_size_select.dart';
 import 'components/quantity_select.dart';
 
@@ -52,32 +54,39 @@ class DrinkDetails extends StatelessWidget {
   }
 
   buildBody() {
-    Widget drinkSize = Text('Coffee Size', style: AppStyles.getTextStyle());
-
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        buildClippedImage(),
-        const SizedBox(height: 18),
-        drinkSize,
-        DrinkSizeSelect(
-            size: cartItem.size,
-            onSizeSelected: (newSize) {
-              cartItem.size = newSize;
-            }),
-        const SizedBox(height: 24),
-        QuantitySelect(
-          quantity: cartItem.quantity,
-          onQuantitySelected: (newQuantity) {
-            cartItem.quantity = newQuantity;
-          },
+    return ScrollConfiguration(
+      behavior: NoGlowScrollBehavior(),
+      child: SingleChildScrollView(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            buildClippedImage(),
+            Text(
+              'Ingredients',
+              style: AppStyles.getTextStyle(16),
+            ),
+            buildSlider(),
+            const SizedBox(height: 16),
+            DrinkSizeSelect(
+                size: cartItem.size,
+                onSizeSelected: (newSize) {
+                  cartItem.size = newSize;
+                }),
+            const SizedBox(height: 6),
+            QuantitySelect(
+              quantity: cartItem.quantity,
+              onQuantitySelected: (newQuantity) {
+                cartItem.quantity = newQuantity;
+              },
+            ),
+            const SizedBox(height: 90),
+          ],
         ),
-        const SizedBox(height: 120),
-      ],
+      ),
     );
   }
 
-  buildClippedImage() {
+  Widget buildClippedImage() {
     return Hero(
       tag: imageTag,
       child: ClipPath(
@@ -114,13 +123,30 @@ class DrinkDetails extends StatelessWidget {
     );
   }
 
+  Widget buildSlider() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 32),
+      child: LayoutBuilder(
+        builder: (_, constraints) {
+          return CustomSlider(
+            initValue: cartItem.milkAmount.toDouble(),
+            onChange: (newValue) {
+              cartItem.milkAmount = newValue;
+            },
+            boxWidth: constraints.maxWidth,
+          );
+        },
+      ),
+    );
+  }
+
   buildBottomBar() {
     return BottomBar(
       text: '\$ ${cartItem.drink.price}\nAdd to cart',
       function: () {
         edit
-            ? context.read<CartItemsProvider>().editCartItem(cartItem: cartItem)
-            : context.read<CartItemsProvider>().insertItem(cartItem: cartItem);
+            ? context.read<CartProvider>().editCartItem(cartItem: cartItem)
+            : context.read<CartProvider>().insertItem(cartItem: cartItem);
       },
     );
   }

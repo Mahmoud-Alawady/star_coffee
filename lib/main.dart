@@ -1,12 +1,19 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:star_coffee/constants/app_colors.dart';
 import 'package:star_coffee/constants/app_strings.dart';
-import 'package:star_coffee/presentation/home_screen.dart';
-import 'package:star_coffee/providers/cart_items_provider.dart';
+import 'package:star_coffee/presentation/sign_up.dart';
+import 'package:star_coffee/providers/cart_provider.dart';
+import 'firebase_options.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+
   runApp(const MyApp());
 }
 
@@ -24,8 +31,7 @@ class MyApp extends StatelessWidget {
 
     return MultiProvider(
       providers: [
-        // ChangeNotifierProvider(create: (context) => PriceSummary()),
-        ChangeNotifierProvider(create: (context) => CartItemsProvider()),
+        ChangeNotifierProvider(create: (context) => CartProvider()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -33,7 +39,7 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           primaryColor: AppColors.primary,
         ),
-        home: HomePage(),
+        home: SignUp(),
       ),
     );
   }

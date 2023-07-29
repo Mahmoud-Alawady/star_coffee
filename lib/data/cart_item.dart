@@ -3,7 +3,7 @@ import 'drink.dart';
 class CartItem {
   int? id;
   Drink drink;
-  double milkAmount;
+  int milkAmount;
   int size;
   int quantity;
 

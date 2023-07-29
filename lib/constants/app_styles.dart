@@ -1,27 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:star_coffee/constants/app_strings.dart';
 import 'app_colors.dart';
 
 class AppStyles {
-  // static TextStyle titleStyle = const TextStyle(
-  //     fontFamily: 'Archivo',
-  //     fontSize: 22,
-  //     // fontWeight: FontWeight.bold,
-  //     color: AppColors.secondary);
-
-  // static TextStyle nameStyle = const TextStyle(
-  //     fontFamily: 'Archivo',
-  //     fontSize: 20,
-  //     // fontWeight: FontWeight.bold,
-  //     color: AppColors.secondary);
-
-  // static TextStyle welcomeStyle = const TextStyle(
-  //     fontFamily: 'Archivo', fontSize: 16, color: AppColors.primary);
-
-  static getTextStyle([double? size, Color? color, String? family]) {
+  static getTextStyle([
+    double size = 18,
+    Color color = AppColors.secondary,
+    String family = AppStrings.primaryFont,
+    FontWeight? weight,
+  ]) {
     return TextStyle(
-      fontFamily: family ?? 'Archivo',
-      fontSize: size ?? 18,
-      color: color ?? AppColors.secondary,
+      fontFamily: family,
+      fontSize: size,
+      color: color,
+      fontWeight: weight,
     );
   }
 }

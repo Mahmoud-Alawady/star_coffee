@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:star_coffee/constants/app_sizes.dart';
+import 'package:star_coffee/constants/globals.dart' as globals;
 import '../../constants/app_colors.dart';
 import '../../constants/app_styles.dart';
 
 class CustomAppBar extends StatefulWidget implements PreferredSizeWidget {
   final Widget? myLeading;
   final String myTitle;
-  final List<Widget> myActions;
+  final Widget myActions;
 
   const CustomAppBar(
       {super.key,
@@ -26,12 +26,12 @@ class _CustomAppBarState extends State<CustomAppBar> {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      toolbarHeight: AppSizes.appBarHeight,
+      toolbarHeight: globals.appBarHeight,
       leadingWidth: 80,
       leading: widget.myLeading,
       centerTitle: true,
       title: Text(widget.myTitle, style: AppStyles.getTextStyle(22)),
-      actions: widget.myActions,
+      actions: [widget.myActions],
       backgroundColor: AppColors.background,
       elevation: 0,
     );

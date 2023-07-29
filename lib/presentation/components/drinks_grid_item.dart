@@ -5,7 +5,7 @@ import 'package:star_coffee/presentation/drink_details.dart';
 import '../../constants/app_colors.dart';
 import '../../constants/app_styles.dart';
 import '../../data/drink.dart';
-import '../../providers/cart_items_provider.dart';
+import '../../providers/cart_provider.dart';
 
 class DrinksGridItem extends StatelessWidget {
   final Drink drink;
@@ -121,7 +121,7 @@ class DrinksGridItem extends StatelessWidget {
         child: InkWell(
           borderRadius: roundBorder,
           onTap: () {
-            context.read<CartItemsProvider>().insertItemQuick(drink: drink);
+            context.read<CartProvider>().insertItemQuick(drink: drink);
           },
           child: const Padding(
             padding: EdgeInsets.all(8),

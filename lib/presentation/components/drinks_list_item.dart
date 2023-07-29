@@ -5,7 +5,7 @@ import '../../constants/app_colors.dart';
 import '../../constants/app_strings.dart';
 import '../../constants/app_styles.dart';
 import '../../data/cart_item.dart';
-import '../../providers/cart_items_provider.dart';
+import '../../providers/cart_provider.dart';
 import '../drink_details.dart';
 
 class DrinksListItem extends StatelessWidget {
@@ -117,9 +117,7 @@ class DrinksListItem extends StatelessWidget {
       quantity: cartItem.quantity,
       onQuantitySelected: (newQuantity) {
         cartItem.quantity = newQuantity;
-        context
-            .read<CartItemsProvider>()
-            .editCartItemQuantity(cartItem: cartItem);
+        context.read<CartProvider>().editCartItemQuantity(cartItem: cartItem);
       },
       miniSize: true,
     );

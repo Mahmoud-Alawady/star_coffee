@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:star_coffee/constants/app_colors.dart';
 import 'package:star_coffee/constants/app_paths.dart';
-import 'package:star_coffee/constants/app_sizes.dart';
+import 'package:star_coffee/constants/globals.dart' as globals;
 import 'package:star_coffee/constants/app_styles.dart';
 import 'package:star_coffee/presentation/components/bottom_bar.dart';
 import 'package:star_coffee/presentation/components/price_summary.dart';
-import '../providers/cart_items_provider.dart';
+import '../providers/cart_provider.dart';
 import 'components/custom_app_bar.dart';
 import 'components/custom_icon_button.dart';
 import 'components/drinks_list.dart';
@@ -38,20 +38,24 @@ class Cart extends StatelessWidget {
     Widget editButton = CustomIconButton(
         icon: AppPaths.editIcon,
         function: () {
-          context.read<CartItemsProvider>().deleteDB();
+          context.read<CartProvider>().editMode = true;
         });
     return CustomAppBar(
       myLeading: backButton,
       myTitle: 'Cart',
-      myActions: [editButton],
+      myActions: editButton,
     );
   }
 
+  edit() {
+    // context.read<CartItemsProvider>().deleteDB();
+  }
+
   buildBody() {
-    if (context.watch<CartItemsProvider>().itemsLoaded) {
+    if (context.watch<CartProvider>().itemsLoaded) {
       return buildBodyContent();
     } else {
-      context.read<CartItemsProvider>().getCartItemsFromDB();
+      context.read<CartProvider>().getCartItemsFromDB();
       return Container(color: AppColors.background);
     }
   }
@@ -68,20 +72,19 @@ class Cart extends StatelessWidget {
 
   buildItems() {
     Widget myOrder = Padding(
-      padding: EdgeInsets.only(left: AppSizes.horizontalPadding, top: 4),
+      padding: EdgeInsets.only(left: globals.horizontalPadding, top: 4),
       child: Text('My Order', style: AppStyles.getTextStyle(22)),
     );
     Widget itemsCount = Padding(
       padding: EdgeInsets.symmetric(
-          horizontal: AppSizes.horizontalPadding, vertical: 12),
+          horizontal: globals.horizontalPadding, vertical: 12),
       child: RichText(
           text: TextSpan(
               text: 'You Have ',
               style: AppStyles.getTextStyle(15, AppColors.secondary, 'Poppins'),
               children: [
             TextSpan(
-                text:
-                    '${context.watch<CartItemsProvider>().cartItemsCount} items ',
+                text: '${context.watch<CartProvider>().cartItemsCount} items ',
                 style:
                     AppStyles.getTextStyle(15, AppColors.primary, 'Poppins')),
             TextSpan(
@@ -97,20 +100,20 @@ class Cart extends StatelessWidget {
         children: [
           myOrder,
           itemsCount,
-          DrinksList(cartItems: context.watch<CartItemsProvider>().cartItems),
+          DrinksList(cartItems: context.watch<CartProvider>().cartItems),
         ],
       ),
     );
   }
 
   buildSummary() {
-    return PriceSummary(p: context.watch<CartItemsProvider>().priceSummary);
+    return PriceSummary(p: context.watch<CartProvider>().priceSummary);
   }
 
   buildBottomBar() {
     return BottomBar(
       text:
-          '\$ ${context.watch<CartItemsProvider>().priceSummary.total}\nProceed to checkout',
+          '\$ ${context.watch<CartProvider>().priceSummary.total}\nProceed to checkout',
       function: () {},
     );
   }

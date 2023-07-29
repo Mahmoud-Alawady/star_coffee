@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "432687305621",
+    "project_id": "star-coffee-f161e",
+    "storage_bucket": "star-coffee-f161e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:432687305621:android:4fbe256b4f564234625c9c",
+        "android_client_info": {
+          "package_name": "com.example.star_coffee"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "432687305621-7umaj6m4o4q37pjvd26pnetnh127n8cm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA2I59i3VanTQCFcZwOetAwWpCWJJEpXwY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "432687305621-7umaj6m4o4q37pjvd26pnetnh127n8cm.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "432687305621-slcduk86lsd8hekk9uhuv9k6n6pvpt7d.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.starCoffee"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
