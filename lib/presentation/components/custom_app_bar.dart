@@ -30,7 +30,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
       leadingWidth: 80,
       leading: widget.myLeading,
       centerTitle: true,
-      title: Text(widget.myTitle, style: AppStyles.getTextStyle(22)),
+      title: Text(widget.myTitle, style: TextStyles.titleXL.secondary),
       actions: [widget.myActions],
       backgroundColor: AppColors.background,
       elevation: 0,

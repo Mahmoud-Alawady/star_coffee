@@ -48,17 +48,12 @@ class PriceSummary extends StatelessWidget {
   }
 
   _buildSummaryRow(String text, double value) {
+    TextStyle style = TextStyles.title.bgColor;
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text(
-          text,
-          style: AppStyles.getTextStyle(16, AppColors.background),
-        ),
-        Text(
-          '\$ $value',
-          style: AppStyles.getTextStyle(16, AppColors.background),
-        ),
+        Text(text, style: style),
+        Text('\$ $value', style: style),
       ],
     );
   }

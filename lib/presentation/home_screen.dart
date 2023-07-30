@@ -12,23 +12,21 @@ import '../data/drink.dart';
 import 'components/custom_app_bar.dart';
 import 'components/custom_icon_button.dart';
 
-class HomePage extends StatelessWidget {
+class HomeScreen extends StatelessWidget {
   int _selectedCategory = 0;
   int _selectedPage = 0;
-  late Size screenSize;
   late double navRailWidth;
   late double navRailHeight;
 
   late BuildContext context;
 
-  HomePage({super.key});
+  HomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     this.context = context;
-    screenSize = MediaQuery.of(context).size;
-    navRailWidth = screenSize.width * 0.15;
-    navRailHeight = (screenSize.height - globals.appBarHeight) * 0.84;
+    navRailWidth = globals.screenSize.width * 0.15;
+    navRailHeight = (globals.screenSize.height - globals.appBarHeight) * 0.86;
 
     return Scaffold(
       backgroundColor: AppColors.background,
@@ -61,7 +59,6 @@ class HomePage extends StatelessWidget {
   buildBody() {
     return Stack(
       children: [
-        // Cart(),
         browseDrinks(),
         buildNavRail(),
         buildBottomNavBar(),
@@ -81,10 +78,10 @@ class HomePage extends StatelessWidget {
   }
 
   buildWelcomeText() {
-    Widget welcome = Text(AppStrings.welcome,
-        style: AppStyles.getTextStyle(16, AppColors.primaryLight, 'Poppins'));
+    Widget welcome =
+        Text(AppStrings.welcome, style: TextStyles.body.s16.primaryLight);
     Widget name =
-        Text(AppStrings.nameExample, style: AppStyles.getTextStyle(20));
+        Text(AppStrings.nameExample, style: TextStyles.titleL.secondary);
     return Padding(
       padding: const EdgeInsets.only(bottom: 36, left: 28),
       child: Column(
@@ -130,9 +127,8 @@ class HomePage extends StatelessWidget {
         child: NavigationRail(
           backgroundColor: AppColors.primary,
           labelType: NavigationRailLabelType.all,
-          selectedLabelTextStyle: AppStyles.getTextStyle(16, Colors.white),
-          unselectedLabelTextStyle:
-              AppStyles.getTextStyle(16, AppColors.primaryLight),
+          selectedLabelTextStyle: TextStyles.title.white,
+          unselectedLabelTextStyle: TextStyles.title.primaryLight,
           selectedIndex: _selectedCategory,
           onDestinationSelected: (int index) {
             _selectedCategory = index;
@@ -215,7 +211,7 @@ class HomePage extends StatelessWidget {
   buildHomeButton() {
     return Positioned(
       bottom: 24,
-      width: screenSize.width,
+      width: globals.screenSize.width,
       child: Align(
         alignment: Alignment.center,
         child: TextButton(

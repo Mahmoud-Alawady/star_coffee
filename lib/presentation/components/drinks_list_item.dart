@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:star_coffee/presentation/components/quantity_select.dart';
-import '../../constants/app_colors.dart';
 import '../../constants/app_strings.dart';
 import '../../constants/app_styles.dart';
 import '../../data/cart_item.dart';
@@ -70,13 +69,17 @@ class DrinksListItem extends StatelessWidget {
   }
 
   buildDetails() {
-    Widget title = Text(cartItem.drink.title,
-        style: AppStyles.getTextStyle(16, AppColors.secondary));
-    Widget subtitle = Text(cartItem.drink.subtitle,
-        style: AppStyles.getTextStyle(14, AppColors.primaryLight, 'Poppins'));
+    Widget title = Text(
+      cartItem.drink.title,
+      style: TextStyles.title.secondary,
+    );
+    Widget subtitle = Text(
+      cartItem.drink.subtitle,
+      style: TextStyles.body.primaryLight,
+    );
     Widget price = Text(
       '\$ ${cartItem.drink.price}',
-      style: AppStyles.getTextStyle(16, AppColors.secondary),
+      style: TextStyles.title.primary,
     );
 
     return Column(
@@ -107,7 +110,7 @@ class DrinksListItem extends StatelessWidget {
       padding: const EdgeInsets.only(left: 8),
       child: Text(
         sizes[cartItem.size],
-        style: AppStyles.getTextStyle(14, AppColors.secondary, 'Poppins'),
+        style: TextStyles.body.secondary,
       ),
     );
   }

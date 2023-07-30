@@ -189,8 +189,9 @@ class TrackPainter extends CustomPainter {
 
     final TextPainter milkTextPainter = TextPainter(
         text: TextSpan(
-            text: '$value% Milk',
-            style: AppStyles.getTextStyle(14, AppColors.primary)),
+          text: '$value% Milk',
+          style: TextStyles.title.s14.primary,
+        ),
         textAlign: TextAlign.justify,
         textDirection: TextDirection.ltr)
       ..layout(maxWidth: size.width);

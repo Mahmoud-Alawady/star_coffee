@@ -50,8 +50,9 @@ class _DrinkSizeSelectState extends State<DrinkSizeSelect> {
           ),
         ),
         Text(sizeTitle[i],
-            style: AppStyles.getTextStyle(
-                14, widget.size == i ? Colors.black : Colors.grey, 'Poppins')),
+            style: widget.size == i
+                ? TextStyles.body.black
+                : TextStyles.body.grey),
       ],
     );
   }

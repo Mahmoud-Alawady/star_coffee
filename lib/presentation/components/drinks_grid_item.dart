@@ -75,14 +75,15 @@ class DrinksGridItem extends StatelessWidget {
   }
 
   buildContent() {
-    Widget title = Text(drink.title,
-        style: AppStyles.getTextStyle(16, AppColors.secondary));
-    Widget subtitle = Text(drink.subtitle,
-        style: AppStyles.getTextStyle(14, AppColors.primaryLight, 'Poppins'));
+    Widget title = Text(
+      drink.title,
+      style: TextStyles.title.secondary,
+    );
+    Widget subtitle = Text(drink.subtitle, style: TextStyles.body.primaryLight);
 
     Widget price = Text(
       '\$ ${drink.price}',
-      style: AppStyles.getTextStyle(16, AppColors.secondary),
+      style: TextStyles.title.secondary,
     );
     Widget rate = _buildRow(Icons.star, drink.rate.toString());
     return Container(
@@ -143,7 +144,7 @@ class DrinksGridItem extends StatelessWidget {
           color: Colors.yellow,
           size: 24,
         ),
-        Text(text, style: AppStyles.getTextStyle(16, Colors.black, 'Poppins')),
+        Text(text, style: TextStyles.body.black),
       ],
     );
   }

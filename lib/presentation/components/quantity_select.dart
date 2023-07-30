@@ -30,8 +30,8 @@ class _QuantitySelectState extends State<QuantitySelect> {
         Text(
           widget.quantity.toString(),
           style: widget.miniSize
-              ? AppStyles.getTextStyle(16)
-              : AppStyles.getTextStyle(),
+              ? TextStyles.title.s14.secondary
+              : TextStyles.title.secondary,
         ),
         buildQuantityEdit(true),
       ],

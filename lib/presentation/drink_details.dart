@@ -63,7 +63,7 @@ class DrinkDetails extends StatelessWidget {
             buildClippedImage(),
             Text(
               'Ingredients',
-              style: AppStyles.getTextStyle(16),
+              style: TextStyles.title.secondary,
             ),
             buildSlider(),
             const SizedBox(height: 16),
@@ -169,7 +169,7 @@ class DrinkDetails extends StatelessWidget {
     );
     Widget name = Text(
       cartItem.drink.title,
-      style: AppStyles.getTextStyle(20, Colors.white),
+      style: TextStyles.titleL.white,
     );
     return Positioned(
       top: 44,

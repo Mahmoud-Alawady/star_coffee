@@ -73,7 +73,7 @@ class Cart extends StatelessWidget {
   buildItems() {
     Widget myOrder = Padding(
       padding: EdgeInsets.only(left: globals.horizontalPadding, top: 4),
-      child: Text('My Order', style: AppStyles.getTextStyle(22)),
+      child: Text('My Order', style: TextStyles.titleXL.secondary),
     );
     Widget itemsCount = Padding(
       padding: EdgeInsets.symmetric(
@@ -81,16 +81,12 @@ class Cart extends StatelessWidget {
       child: RichText(
           text: TextSpan(
               text: 'You Have ',
-              style: AppStyles.getTextStyle(15, AppColors.secondary, 'Poppins'),
+              style: TextStyles.body.secondary,
               children: [
             TextSpan(
                 text: '${context.watch<CartProvider>().cartItemsCount} items ',
-                style:
-                    AppStyles.getTextStyle(15, AppColors.primary, 'Poppins')),
-            TextSpan(
-                text: 'in your cart',
-                style:
-                    AppStyles.getTextStyle(15, AppColors.secondary, 'Poppins')),
+                style: TextStyles.body.primary),
+            TextSpan(text: 'in your cart', style: TextStyles.body.secondary),
           ])),
     );
     return SingleChildScrollView(

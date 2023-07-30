@@ -27,8 +27,7 @@ class BottomBar extends StatelessWidget {
                 padding: const EdgeInsets.only(bottom: 10),
                 child: Text(
                   text,
-                  style: AppStyles.getTextStyle(18, AppColors.background)
-                      .copyWith(height: 1.5),
+                  style: TextStyles.titleL.bgColor.copyWith(height: 1.5),
                   textAlign: TextAlign.center,
                 ),
               ),

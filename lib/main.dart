@@ -33,12 +33,37 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (context) => CartProvider()),
       ],
-      child: MaterialApp(
+      child: const MaterialApp(
         debugShowCheckedModeBanner: false,
         title: AppStrings.appTitle,
-        theme: ThemeData(
-          primaryColor: AppColors.primary,
-        ),
+        // theme: ThemeData(
+        //   primaryColor: AppColors.primary,
+        // ),
+        // theme: ThemeData(
+        //   brightness: Brightness.dark,
+        //   colorScheme: const ColorScheme(
+        //     brightness: Brightness.dark,
+        //     primary: Color(0xffD84315),
+        //     onPrimary: Colors.black,
+        //     secondary: Color(0xff411530),
+        //     onSecondary: Colors.white,
+        //     error: Colors.red,
+        //     onError: Colors.white,
+        //     background: Color(0xffFFCDD2),
+        //     onBackground: Colors.black,
+        //     surface: Color(0xffFFCDD2),
+        //     onSurface: Color(0xffE3A649),
+        //   ),
+        //   // Define the default font family.
+        //   fontFamily: 'Georgia',
+        //   // Define the default `TextTheme`. Use this to specify the default
+        //   // text styling for headlines, titles, bodies of text, and more.
+        //   textTheme: const TextTheme(
+        //     displayLarge: TextStyle(fontSize: 72, fontWeight: FontWeight.bold),
+        //     titleLarge: TextStyle(fontSize: 36, fontStyle: FontStyle.italic),
+        //     bodyMedium: TextStyle(fontSize: 14, fontFamily: 'Hind'),
+        //   ),
+        // ),
         home: SignUp(),
       ),
     );
