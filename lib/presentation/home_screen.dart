@@ -7,7 +7,8 @@ import 'package:star_coffee/presentation/components/drinks_grid.dart';
 import '../constants/app_colors.dart';
 import 'package:star_coffee/constants/globals.dart' as globals;
 import '../constants/app_strings.dart';
-import '../constants/app_styles.dart';
+
+import '../constants/text_styles.dart';
 import '../data/drink.dart';
 import 'components/custom_app_bar.dart';
 import 'components/custom_icon_button.dart';

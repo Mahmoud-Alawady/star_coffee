@@ -3,9 +3,9 @@ import 'package:provider/provider.dart';
 import 'package:star_coffee/constants/app_colors.dart';
 import 'package:star_coffee/constants/app_paths.dart';
 import 'package:star_coffee/constants/globals.dart' as globals;
-import 'package:star_coffee/constants/app_styles.dart';
 import 'package:star_coffee/presentation/components/bottom_bar.dart';
 import 'package:star_coffee/presentation/components/price_summary.dart';
+import '../constants/text_styles.dart';
 import '../providers/cart_provider.dart';
 import 'components/custom_app_bar.dart';
 import 'components/custom_icon_button.dart';
@@ -55,7 +55,7 @@ class Cart extends StatelessWidget {
     if (context.watch<CartProvider>().itemsLoaded) {
       return buildBodyContent();
     } else {
-      context.read<CartProvider>().getCartItemsFromDB();
+      context.read<CartProvider>().getItems();
       return Container(color: AppColors.background);
     }
   }

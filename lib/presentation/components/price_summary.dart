@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:star_coffee/constants/globals.dart' as globals;
 import 'package:star_coffee/data/price_summary_model.dart';
 import '../../constants/app_colors.dart';
-import '../../constants/app_styles.dart';
+import '../../constants/text_styles.dart';
 import 'clip_rount_top.dart';
 
 class PriceSummary extends StatelessWidget {

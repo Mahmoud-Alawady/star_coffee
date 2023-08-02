@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import '../../constants/app_paths.dart';
-import '../../constants/app_styles.dart';
+import '../../constants/text_styles.dart';
 
 typedef IntCallback = void Function(int newQuantity);
 

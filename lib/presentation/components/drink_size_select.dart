@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import '../../constants/app_colors.dart';
 import '../../constants/app_paths.dart';
-import '../../constants/app_styles.dart';
+import '../../constants/text_styles.dart';
 
 // another way to make a class accept a function
 // typedef IntCallback = void Function(int newSize);

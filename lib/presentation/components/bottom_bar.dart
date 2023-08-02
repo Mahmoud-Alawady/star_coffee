@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../constants/app_colors.dart';
-import '../../constants/app_styles.dart';
+import '../../constants/text_styles.dart';
 import 'clip_rount_top.dart';
 import 'package:star_coffee/constants/globals.dart' as globals;
 

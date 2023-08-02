@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:star_coffee/constants/app_colors.dart';
 import 'package:star_coffee/constants/app_paths.dart';
-import 'package:star_coffee/constants/app_styles.dart';
+import 'package:star_coffee/constants/text_styles.dart';
 
 class CustomSlider extends StatefulWidget {
   final double initValue;

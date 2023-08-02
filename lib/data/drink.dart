@@ -1,8 +1,21 @@
+import 'package:hive/hive.dart';
+part 'drink.g.dart';
+
+@HiveType(typeId: 2)
 class Drink {
+  @HiveField(0)
   String image;
+
+  @HiveField(1)
   String title;
+
+  @HiveField(2)
   String subtitle;
+
+  @HiveField(3)
   double price;
+
+  @HiveField(4)
   double rate;
 
   Drink({

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:star_coffee/constants/globals.dart' as globals;
 import '../../constants/app_colors.dart';
-import '../../constants/app_styles.dart';
+import '../../constants/text_styles.dart';
 
 class CustomAppBar extends StatefulWidget implements PreferredSizeWidget {
   final Widget? myLeading;

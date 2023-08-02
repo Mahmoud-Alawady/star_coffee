@@ -1,14 +1,23 @@
+import 'package:hive/hive.dart';
 import 'drink.dart';
 
+part 'cart_item.g.dart';
+
+@HiveType(typeId: 1)
 class CartItem {
-  int? id;
+  @HiveField(1)
   Drink drink;
+
+  @HiveField(2)
   int milkAmount;
+
+  @HiveField(3)
   int size;
+
+  @HiveField(0)
   int quantity;
 
   CartItem({
-    this.id,
     required this.drink,
     required this.milkAmount,
     required this.size,
@@ -17,7 +26,6 @@ class CartItem {
 
   factory CartItem.fromDB(Map<dynamic, dynamic> cartItem) {
     return CartItem(
-        id: cartItem['id'],
         drink: Drink(
             image: cartItem['image'],
             title: cartItem['title'],

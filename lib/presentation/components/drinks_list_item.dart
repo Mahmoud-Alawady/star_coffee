@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:star_coffee/presentation/components/quantity_select.dart';
 import '../../constants/app_strings.dart';
-import '../../constants/app_styles.dart';
+import '../../constants/text_styles.dart';
 import '../../data/cart_item.dart';
 import '../../providers/cart_provider.dart';
 import '../drink_details.dart';
 
 class DrinksListItem extends StatelessWidget {
   late BuildContext context;
-  final CartItem cartItem;
+  CartItem cartItem;
   final int index;
   final String imageTag;
   final List<String> sizes = ['Small', 'Medium', 'Large'];
@@ -27,7 +27,7 @@ class DrinksListItem extends StatelessWidget {
             Navigator.of(context).push(MaterialPageRoute(
                 builder: (context) => DrinkDetails.fromCart(
                       cartItem: cartItem,
-                      imageTag: imageTag,
+                      index: index,
                     )));
           },
           child: buildContent()),
@@ -120,7 +120,9 @@ class DrinksListItem extends StatelessWidget {
       quantity: cartItem.quantity,
       onQuantitySelected: (newQuantity) {
         cartItem.quantity = newQuantity;
-        context.read<CartProvider>().editCartItemQuantity(cartItem: cartItem);
+        context
+            .read<CartProvider>()
+            .editCartItem(cartItem: cartItem, index: index);
       },
       miniSize: true,
     );

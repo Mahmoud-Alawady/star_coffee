@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:star_coffee/constants/app_colors.dart';
 import 'package:star_coffee/constants/app_paths.dart';
-import 'package:star_coffee/constants/app_styles.dart';
 import 'package:star_coffee/presentation/components/no_glow_scroll_behavior.dart';
 import '../constants/app_strings.dart';
+import '../constants/text_styles.dart';
 import 'home_screen.dart';
 import 'package:star_coffee/constants/globals.dart' as globals;
 

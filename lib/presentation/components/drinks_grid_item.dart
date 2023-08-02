@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:star_coffee/constants/app_strings.dart';
 import 'package:star_coffee/presentation/drink_details.dart';
 import '../../constants/app_colors.dart';
-import '../../constants/app_styles.dart';
+import '../../constants/text_styles.dart';
 import '../../data/drink.dart';
 import '../../providers/cart_provider.dart';
 
@@ -27,7 +27,7 @@ class DrinksGridItem extends StatelessWidget {
             builder: (context) {
               return DrinkDetails.fromHome(
                 drink: drink,
-                imageTag: imageTag,
+                index: index,
               );
             },
           ));
@@ -122,7 +122,7 @@ class DrinksGridItem extends StatelessWidget {
         child: InkWell(
           borderRadius: roundBorder,
           onTap: () {
-            context.read<CartProvider>().insertItemQuick(drink: drink);
+            context.read<CartProvider>().addItemQuick(drink: drink);
           },
           child: const Padding(
             padding: EdgeInsets.all(8),

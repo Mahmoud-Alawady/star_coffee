@@ -4,10 +4,10 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:star_coffee/constants/app_colors.dart';
 import 'package:star_coffee/constants/app_paths.dart';
-import 'package:star_coffee/constants/app_styles.dart';
 import 'package:star_coffee/presentation/components/no_glow_scroll_behavior.dart';
 import 'package:star_coffee/presentation/sign_in.dart';
 import '../constants/app_strings.dart';
+import '../constants/text_styles.dart';
 import 'home_screen.dart';
 import 'package:star_coffee/constants/globals.dart' as globals;
 

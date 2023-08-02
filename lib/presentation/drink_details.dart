@@ -4,13 +4,13 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 import 'package:star_coffee/constants/app_colors.dart';
 import 'package:star_coffee/constants/app_paths.dart';
-import 'package:star_coffee/constants/app_styles.dart';
-import 'package:star_coffee/data/cart_database.dart';
+import 'package:star_coffee/constants/text_styles.dart';
 import 'package:star_coffee/data/cart_item.dart';
 import 'package:star_coffee/presentation/components/bottom_bar.dart';
 import 'package:star_coffee/presentation/components/clip_round_bottom.dart';
 import 'package:star_coffee/presentation/components/no_glow_scroll_behavior.dart';
 import 'package:star_coffee/providers/cart_provider.dart';
+import '../constants/app_strings.dart';
 import '../data/drink.dart';
 import 'components/custom_slider.dart';
 import 'components/drink_size_select.dart';
@@ -19,16 +19,24 @@ import 'components/quantity_select.dart';
 class DrinkDetails extends StatelessWidget {
   late BuildContext context;
   final bool edit;
+  final int index;
   final String imageTag;
   CartItem cartItem;
 
-  DrinkDetails.fromCart(
-      {super.key, required this.cartItem, required this.imageTag})
-      : edit = true;
-  DrinkDetails.fromHome(
-      {super.key, required Drink drink, required this.imageTag})
-      : edit = false,
-        cartItem = CartItem(drink: drink, milkAmount: 50, size: 1, quantity: 1);
+  DrinkDetails.fromCart({
+    super.key,
+    required this.cartItem,
+    required this.index,
+  })  : edit = true,
+        imageTag = AppStrings.listImageTag + index.toString();
+
+  DrinkDetails.fromHome({
+    super.key,
+    required Drink drink,
+    required this.index,
+  })  : edit = false,
+        cartItem = CartItem(drink: drink, milkAmount: 50, size: 1, quantity: 1),
+        imageTag = AppStrings.gridImageTag + index.toString();
 
   @override
   Widget build(BuildContext context) {
@@ -145,8 +153,10 @@ class DrinkDetails extends StatelessWidget {
       text: '\$ ${cartItem.drink.price}\nAdd to cart',
       function: () {
         edit
-            ? context.read<CartProvider>().editCartItem(cartItem: cartItem)
-            : context.read<CartProvider>().insertItem(cartItem: cartItem);
+            ? context
+                .read<CartProvider>()
+                .editCartItem(cartItem: cartItem, index: index)
+            : context.read<CartProvider>().addItem(item: cartItem);
       },
     );
   }
@@ -164,7 +174,7 @@ class DrinkDetails extends StatelessWidget {
       padding: buttonPadding,
       icon: SvgPicture.asset(AppPaths.addToFav),
       onPressed: () async {
-        await CartDatabase.getCartItems();
+        // await CartDatabase.getCartItems();
       },
     );
     Widget name = Text(
