@@ -38,17 +38,16 @@ class Cart extends StatelessWidget {
     Widget editButton = CustomIconButton(
         icon: AppPaths.editIcon,
         function: () {
-          context.read<CartProvider>().editMode = true;
+          context.read<CartProvider>().toggleEditMode();
         });
     return CustomAppBar(
       myLeading: backButton,
-      myTitle: 'Cart',
+      myTitle: context.watch<CartProvider>().editMode ? 'edit Items' : 'Cart',
+      style: context.watch<CartProvider>().editMode
+          ? TextStyles.titleL.secondary
+          : null,
       myActions: editButton,
     );
-  }
-
-  edit() {
-    // context.read<CartItemsProvider>().deleteDB();
   }
 
   buildBody() {
@@ -73,7 +72,7 @@ class Cart extends StatelessWidget {
   buildItems() {
     Widget myOrder = Padding(
       padding: EdgeInsets.only(left: globals.horizontalPadding, top: 4),
-      child: Text('My Order', style: TextStyles.titleXL.secondary),
+      child: Text('My Order', style: TextStyles.titleL.secondary),
     );
     Widget itemsCount = Padding(
       padding: EdgeInsets.symmetric(
@@ -108,36 +107,14 @@ class Cart extends StatelessWidget {
 
   buildBottomBar() {
     return BottomBar(
-      text:
-          '\$ ${context.watch<CartProvider>().priceSummary.total}\nProceed to checkout',
-      function: () {},
+      text: context.watch<CartProvider>().editMode
+          ? 'Remove Items\n'
+          : '\$ ${context.watch<CartProvider>().priceSummary.total}\nProceed to checkout',
+      function: context.read<CartProvider>().editMode
+          ? () {
+              context.read<CartProvider>().deleteSelected();
+            }
+          : () {},
     );
   }
-
-  // _showError() {
-  //   return Center(
-  //     child: Column(
-  //         mainAxisAlignment: MainAxisAlignment.center,
-  //         crossAxisAlignment: CrossAxisAlignment.center,
-  //         children: [
-  //           const Padding(
-  //               padding: EdgeInsets.all(24.0),
-  //               child: Icon(
-  //                 Icons.error,
-  //                 size: 150,
-  //                 color: Color.fromARGB(255, 112, 109, 109),
-  //               )),
-  //           Text(cartItemsProvider.error.toString()),
-  //           MaterialButton(
-  //             onPressed: () {
-  //               cartItemsProvider.refresh();
-  //             },
-  //             color: AppColors.primary,
-  //             shape: const RoundedRectangleBorder(
-  //                 borderRadius: BorderRadius.all(Radius.circular(12))),
-  //             child: const Text('Refresh'),
-  //           )
-  //         ]),
-  //   );
-  // }
 }

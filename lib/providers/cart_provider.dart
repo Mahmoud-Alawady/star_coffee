@@ -5,17 +5,20 @@ import 'package:star_coffee/data/drink.dart';
 import '../data/cart_item.dart';
 import '../data/price_summary_model.dart';
 
-// enum CartState { initial, loaded, error }
-
 class CartProvider with ChangeNotifier {
-  var box;
+  late Box<CartItem> box;
   bool _itemsLoaded = false;
   bool _editMode = false;
   List<CartItem> _itemsList = [];
+  List<int> _selectedItems = [];
 
   bool get itemsLoaded => _itemsLoaded;
 
+  bool get editMode => _editMode;
+
   List<CartItem> get cartItems => _itemsList;
+
+  List<int> get selectedItems => _selectedItems;
 
   int get cartItemsCount => _itemsList.length;
 
@@ -63,8 +66,37 @@ class CartProvider with ChangeNotifier {
     getItems();
   }
 
-  set editMode(bool isEnabled) {
-    _editMode = isEnabled;
+  void toggleEditMode() {
+    if (_editMode) {
+      _editMode = false;
+    } else {
+      _editMode = true;
+    }
     notifyListeners();
+  }
+
+  void addToSelected(int index) {
+    _selectedItems.add(index);
+    notifyListeners();
+  }
+
+  void removeFromSelected(int index) {
+    _selectedItems.remove(index);
+    notifyListeners();
+  }
+
+  void deleteSelected() async {
+    if (!Hive.isBoxOpen('cartBox')) {
+      box = await Hive.openBox<CartItem>('cartBox');
+    }
+
+    _selectedItems.sort();
+    for (int i = _selectedItems.length - 1; i > -1; i--) {
+      await box.deleteAt(_selectedItems[i]);
+    }
+
+    _selectedItems.clear();
+    _editMode = false;
+    getItems();
   }
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:provider/provider.dart';
 import 'package:star_coffee/constants/app_paths.dart';
 import 'package:star_coffee/presentation/cart.dart';
 import 'package:star_coffee/presentation/components/clip_rount_top.dart';
@@ -10,6 +11,7 @@ import '../constants/app_strings.dart';
 
 import '../constants/text_styles.dart';
 import '../data/drink.dart';
+import '../providers/cart_provider.dart';
 import 'components/custom_app_bar.dart';
 import 'components/custom_icon_button.dart';
 

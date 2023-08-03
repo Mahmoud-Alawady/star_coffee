@@ -5,16 +5,16 @@ part 'cart_item.g.dart';
 
 @HiveType(typeId: 1)
 class CartItem {
-  @HiveField(1)
+  @HiveField(0)
   Drink drink;
 
-  @HiveField(2)
+  @HiveField(1)
   int milkAmount;
 
-  @HiveField(3)
+  @HiveField(2)
   int size;
 
-  @HiveField(0)
+  @HiveField(3)
   int quantity;
 
   CartItem({

@@ -24,11 +24,15 @@ class DrinksListItem extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 8),
       child: InkWell(
           onTap: () {
-            Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) => DrinkDetails.fromCart(
-                      cartItem: cartItem,
-                      index: index,
-                    )));
+            context.read<CartProvider>().editMode
+                ? context.read<CartProvider>().selectedItems.contains(index)
+                    ? context.read<CartProvider>().removeFromSelected(index)
+                    : context.read<CartProvider>().addToSelected(index)
+                : Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => DrinkDetails.fromCart(
+                          cartItem: cartItem,
+                          index: index,
+                        )));
           },
           child: buildContent()),
     );
@@ -37,9 +41,13 @@ class DrinksListItem extends StatelessWidget {
   buildContent() {
     return Container(
       padding: const EdgeInsets.all(8),
-      decoration: const BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.all(Radius.circular(26))),
+      decoration: BoxDecoration(
+          color: context.watch<CartProvider>().editMode
+              ? context.watch<CartProvider>().selectedItems.contains(index)
+                  ? Colors.grey
+                  : Colors.white
+              : Colors.white,
+          borderRadius: const BorderRadius.all(Radius.circular(26))),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
