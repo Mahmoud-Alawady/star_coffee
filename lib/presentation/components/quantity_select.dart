@@ -40,8 +40,8 @@ class _QuantitySelectState extends State<QuantitySelect> {
 
   buildQuantityEdit(bool increase) {
     return SizedBox(
-      width: widget.miniSize ? 38 : null,
-      height: widget.miniSize ? 38 : null,
+      width: widget.miniSize ? 38 : 44,
+      height: widget.miniSize ? 38 : 44,
       child: IconButton(
           onPressed: () {
             setState(() {

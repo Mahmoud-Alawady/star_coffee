@@ -71,7 +71,7 @@ class DrinkDetails extends StatelessWidget {
             buildClippedImage(),
             Text(
               'Ingredients',
-              style: TextStyles.title.secondary,
+              style: TextStyles.title.secondary.s14,
             ),
             buildSlider(),
             const SizedBox(height: 16),

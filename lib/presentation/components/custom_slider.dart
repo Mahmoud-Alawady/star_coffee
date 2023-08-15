@@ -36,7 +36,7 @@ class _CustomSliderState extends State<CustomSlider> {
   void initState() {
     value = widget.initValue;
     boxHeight = widget.boxWidth * 0.28;
-    initThumbWidth = widget.boxWidth * 0.14;
+    initThumbWidth = widget.boxWidth * 0.12;
     thumbWidth = initThumbWidth;
 
     maxYLoc = boxHeight * 0.18;
@@ -77,7 +77,7 @@ class _CustomSliderState extends State<CustomSlider> {
       child: GestureDetector(
         onHorizontalDragStart: (details) {
           setState(() {
-            thumbWidth += 6;
+            thumbWidth += 4;
           });
         },
         onHorizontalDragUpdate: (details) {
@@ -90,7 +90,7 @@ class _CustomSliderState extends State<CustomSlider> {
         },
         onHorizontalDragEnd: (details) {
           setState(() {
-            thumbWidth -= 6;
+            thumbWidth -= 4;
           });
         },
         child: AnimatedContainer(
@@ -112,12 +112,12 @@ class _CustomSliderState extends State<CustomSlider> {
 
   double quadFun(double x) {
     //quadratic equation of track curve
-    return -(0.02 * x - 1) * (0.02 * x - 1) + 1.56;
+    return -(0.02 * x - 1) * (0.02 * x - 1) + 1.62;
   }
 
   double calcYLoc() {
-    double coefficient = quadFun(value);
-    return coefficient * maxYLoc;
+    double factor = quadFun(value);
+    return factor * maxYLoc;
   }
 
   double calcXLoc() {
@@ -139,10 +139,13 @@ class TrackPainter extends CustomPainter {
   int value;
   final Color color;
   final pi = 3.14159265358;
+  final double pointWidth = 14;
+
   TrackPainter(this.color, this.value);
 
   @override
   void paint(Canvas canvas, Size size) {
+    //curve
     final rect = Rect.fromLTWH(0.0, 0.0, size.width, size.height);
     final colors = [
       Colors.transparent,
@@ -160,13 +163,7 @@ class TrackPainter extends CustomPainter {
       ..shader = trackGradient.createShader(rect)
       ..color = color
       ..style = PaintingStyle.stroke
-      ..strokeWidth = 4
-      ..strokeCap = StrokeCap.round;
-
-    Paint pointPaint = Paint()
-      ..color = color.withAlpha(200)
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = 16
+      ..strokeWidth = 3
       ..strokeCap = StrokeCap.round;
 
     Path path = Path()
@@ -180,17 +177,28 @@ class TrackPainter extends CustomPainter {
         size.width, //end point
         size.height,
       );
-
     canvas.drawPath(path, curvePaint);
+
+    //points
+    Paint pointPaint = Paint()
+      ..color = color.withAlpha(200)
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = pointWidth
+      ..strokeCap = StrokeCap.round;
+
     canvas.drawPoints(
         PointMode.points,
-        [Offset(8, size.height - 4), Offset(size.width - 8, size.height - 4)],
+        [
+          Offset(pointWidth / 2, size.height),
+          Offset(size.width - pointWidth / 2, size.height)
+        ],
         pointPaint);
 
+    //text
     final TextPainter milkTextPainter = TextPainter(
         text: TextSpan(
           text: '$value% Milk',
-          style: TextStyles.title.s14.primary,
+          style: TextStyles.title.s12.primary,
         ),
         textAlign: TextAlign.justify,
         textDirection: TextDirection.ltr)
@@ -199,7 +207,7 @@ class TrackPainter extends CustomPainter {
     milkTextPainter.paint(
         canvas,
         Offset(size.width / 2 - (milkTextPainter.width / 2),
-            size.height - milkTextPainter.height));
+            size.height - pointWidth / 2));
   }
 
   @override

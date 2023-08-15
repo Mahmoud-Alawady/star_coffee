@@ -81,9 +81,9 @@ class _SignUpState extends State<SignUp> {
             Text(AppStrings.name, style: TextStyles.title.secondary),
             _buildTextField(
                 Icons.edit, AppStrings.nameHint, (value) => name = value),
-            Text(AppStrings.phoneNumber, style: style),
-            _buildTextField(Icons.phone, AppStrings.phoneNumberHint,
-                (value) => phoneNumber = value),
+            // Text(AppStrings.phoneNumber, style: style),
+            // _buildTextField(Icons.phone, AppStrings.phoneNumberHint,
+            //     (value) => phoneNumber = value),
             Text(AppStrings.email, style: style),
             _buildTextField(
                 Icons.email, AppStrings.emailHint, (value) => email = value),
@@ -216,8 +216,9 @@ class _SignUpState extends State<SignUp> {
   }
 
   Future<void> createUser() async {
-    await FirebaseAuth.instance
+    var result = await FirebaseAuth.instance
         .createUserWithEmailAndPassword(email: email!, password: password!);
+    result.user?.updateDisplayName(name);
   }
 
   // _buildSignUpWithGoogle() {

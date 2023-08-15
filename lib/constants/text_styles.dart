@@ -60,6 +60,7 @@ extension TextStyleHelpers on TextStyle {
   TextStyle get red => copyWith(color: Colors.red);
   TextStyle get grey => copyWith(color: Colors.grey);
   TextStyle get bold => copyWith(fontWeight: FontWeight.w900);
+  TextStyle get s12 => copyWith(fontSize: 12);
   TextStyle get s14 => copyWith(fontSize: 14);
   TextStyle get s16 => copyWith(fontSize: 16);
   TextStyle get underline => copyWith(decoration: TextDecoration.underline);

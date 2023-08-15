@@ -44,15 +44,15 @@ class _DrinkSizeSelectState extends State<DrinkSizeSelect> {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         SizedBox(
-          height: 100,
+          height: 90,
           child: Center(
             child: buildSizeIcon(i),
           ),
         ),
         Text(sizeTitle[i],
             style: widget.size == i
-                ? TextStyles.body.black
-                : TextStyles.body.grey),
+                ? TextStyles.body.black.s12
+                : TextStyles.body.grey.s12),
       ],
     );
   }
@@ -73,9 +73,9 @@ class _DrinkSizeSelectState extends State<DrinkSizeSelect> {
         },
         borderRadius: roundBorder,
         child: Ink(
-          height: 70.0 + i * 11,
-          width: 70.0 + i * 11,
-          padding: const EdgeInsets.all(24),
+          height: 66.0 + i * 10,
+          width: 66.0 + i * 10,
+          padding: const EdgeInsets.all(22),
           child: SvgPicture.asset(
             AppPaths.cup,
             colorFilter: (widget.size == i)
