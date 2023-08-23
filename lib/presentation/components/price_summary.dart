@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:star_coffee/constants/globals.dart' as globals;
+import 'package:star_coffee/constants/globals.dart';
 import 'package:star_coffee/data/price_summary_model.dart';
 import '../../constants/app_colors.dart';
 import '../../constants/text_styles.dart';
@@ -22,11 +22,11 @@ class PriceSummary extends StatelessWidget {
         clipper: ClipRoundTop(),
         clipBehavior: Clip.antiAlias,
         child: Container(
-          height: globals.summaryHeight,
+          height: Globals.summaryHeight,
           color: AppColors.primary,
           child: Padding(
             padding:
-                EdgeInsets.symmetric(horizontal: globals.horizontalPadding),
+                EdgeInsets.symmetric(horizontal: Globals.horizontalPadding),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
@@ -38,7 +38,7 @@ class PriceSummary extends StatelessWidget {
                 myDiv,
                 _buildSummaryRow('Total', p.total),
                 myDiv,
-                SizedBox(height: globals.bottomBarHeight - 20),
+                SizedBox(height: Globals.bottomBarHeight - 20),
               ],
             ),
           ),

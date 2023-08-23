@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:star_coffee/bussiness/stripe_payment/payment_manager.dart';
 import 'package:star_coffee/constants/app_colors.dart';
 import 'package:star_coffee/constants/app_paths.dart';
-import 'package:star_coffee/constants/globals.dart' as globals;
+import 'package:star_coffee/constants/globals.dart';
 import 'package:star_coffee/presentation/components/bottom_bar.dart';
 import 'package:star_coffee/presentation/components/price_summary.dart';
 import '../constants/text_styles.dart';
@@ -12,24 +13,18 @@ import 'components/custom_icon_button.dart';
 import 'components/drinks_list.dart';
 
 class Cart extends StatelessWidget {
-  late BuildContext context;
-  late Size screenSize;
-
-  Cart({super.key});
+  const Cart({super.key});
 
   @override
   Widget build(BuildContext context) {
-    this.context = context;
-    screenSize = MediaQuery.of(context).size;
-
     return Scaffold(
       backgroundColor: AppColors.background,
-      appBar: buildAppBar(),
-      body: buildBody(),
+      appBar: buildAppBar(context),
+      body: buildBody(context),
     );
   }
 
-  buildAppBar() {
+  buildAppBar(BuildContext context) {
     Widget backButton = CustomIconButton(
         icon: AppPaths.backIcon,
         function: () {
@@ -50,33 +45,33 @@ class Cart extends StatelessWidget {
     );
   }
 
-  buildBody() {
+  buildBody(BuildContext context) {
     if (context.watch<CartProvider>().itemsLoaded) {
-      return buildBodyContent();
+      return buildBodyContent(context);
     } else {
       context.read<CartProvider>().getItems();
       return Container(color: AppColors.background);
     }
   }
 
-  Widget buildBodyContent() {
+  Widget buildBodyContent(BuildContext context) {
     return Stack(
       children: [
-        buildItems(),
-        buildSummary(),
-        buildBottomBar(),
+        buildItems(context),
+        PriceSummary(p: context.watch<CartProvider>().priceSummary),
+        buildBottomBar(context),
       ],
     );
   }
 
-  buildItems() {
+  buildItems(BuildContext context) {
     Widget myOrder = Padding(
-      padding: EdgeInsets.only(left: globals.horizontalPadding, top: 4),
+      padding: EdgeInsets.only(left: Globals.horizontalPadding, top: 4),
       child: Text('My Order', style: TextStyles.titleL.secondary),
     );
     Widget itemsCount = Padding(
       padding: EdgeInsets.symmetric(
-          horizontal: globals.horizontalPadding, vertical: 12),
+          horizontal: Globals.horizontalPadding, vertical: 12),
       child: RichText(
           text: TextSpan(
               text: 'You Have ',
@@ -101,11 +96,7 @@ class Cart extends StatelessWidget {
     );
   }
 
-  buildSummary() {
-    return PriceSummary(p: context.watch<CartProvider>().priceSummary);
-  }
-
-  buildBottomBar() {
+  buildBottomBar(BuildContext context) {
     return BottomBar(
       text: context.watch<CartProvider>().editMode
           ? 'Remove Items\n'
@@ -114,7 +105,18 @@ class Cart extends StatelessWidget {
           ? () {
               context.read<CartProvider>().deleteSelected();
             }
-          : () {},
+          : () {
+              try {
+                PaymentManager.makePayment(
+                        context.read<CartProvider>().priceSummary.total, 'USD')
+                    .then((_) {
+                  context.read<CartProvider>().deleteDB();
+                });
+              } catch (error) {
+                //snackbar
+                //print(error.toString());
+              }
+            },
     );
   }
 }

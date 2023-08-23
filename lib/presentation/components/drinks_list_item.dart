@@ -8,8 +8,8 @@ import '../../providers/cart_provider.dart';
 import '../drink_details.dart';
 
 class DrinksListItem extends StatelessWidget {
-  late BuildContext context;
-  CartItem cartItem;
+  late final BuildContext context;
+  final CartItem cartItem;
   final int index;
   final String imageTag;
   final List<String> sizes = ['Small', 'Medium', 'Large'];
@@ -125,7 +125,7 @@ class DrinksListItem extends StatelessWidget {
 
   buildQuantity() {
     return QuantitySelect(
-      quantity: cartItem.quantity,
+      initQuantity: cartItem.quantity,
       onQuantitySelected: (newQuantity) {
         cartItem.quantity = newQuantity;
         context

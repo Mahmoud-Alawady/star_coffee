@@ -1,17 +1,20 @@
-library star_coffee.globals;
-
 import 'package:flutter/material.dart';
 
-double appBarHeight = 80;
-double bottomBarHeight = 120;
-double summaryHeight = 344;
-double horizontalPadding = 26;
+abstract class Globals {
+  static double appBarHeight = 80;
+  static double bottomBarHeight = 120;
+  static double summaryHeight = 344;
+  static double horizontalPadding = 26;
 
-late Size screenSize;
-late double curveHeight;
+  static late Size screenSize;
+  static late double curveHeight;
+  static late double navRailWidth;
+  static late double navRailHeight;
 
-setScreenSize(Size size) {
-  screenSize = size;
-  curveHeight = size.width / 5;
-  //screenSize Set: 360.0 : 756.0 and curve height: 72.0
+  static setScreenSize(Size size) {
+    screenSize = size;
+    curveHeight = size.width / 5;
+    navRailWidth = size.width * 0.15;
+    navRailHeight = (size.height - appBarHeight) * 0.86;
+  }
 }

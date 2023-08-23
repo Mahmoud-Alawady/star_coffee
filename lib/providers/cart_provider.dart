@@ -10,7 +10,7 @@ class CartProvider with ChangeNotifier {
   bool _itemsLoaded = false;
   bool _editMode = false;
   List<CartItem> _itemsList = [];
-  List<int> _selectedItems = [];
+  final List<int> _selectedItems = [];
 
   bool get itemsLoaded => _itemsLoaded;
 

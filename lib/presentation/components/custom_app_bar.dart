@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:star_coffee/constants/globals.dart' as globals;
+import 'package:star_coffee/constants/globals.dart';
 import '../../constants/app_colors.dart';
 import '../../constants/text_styles.dart';
 
@@ -21,14 +21,14 @@ class CustomAppBar extends StatefulWidget implements PreferredSizeWidget {
   final Size preferredSize = const Size.fromHeight(kToolbarHeight);
 
   @override
-  _CustomAppBarState createState() => _CustomAppBarState();
+  CustomAppBarState createState() => CustomAppBarState();
 }
 
-class _CustomAppBarState extends State<CustomAppBar> {
+class CustomAppBarState extends State<CustomAppBar> {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      toolbarHeight: globals.appBarHeight,
+      toolbarHeight: Globals.appBarHeight,
       leadingWidth: 80,
       leading: widget.myLeading,
       centerTitle: true,

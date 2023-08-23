@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:star_coffee/constants/globals.dart' as globals;
+import 'package:star_coffee/constants/globals.dart';
 
 class ClipRoundTop extends CustomClipper<Path> {
   // double width;
@@ -11,9 +11,9 @@ class ClipRoundTop extends CustomClipper<Path> {
 
     path.moveTo(size.width, size.height); //bottom right
     path.lineTo(0, size.height); //bottom left
-    path.lineTo(0, globals.curveHeight); //up to curve start
+    path.lineTo(0, Globals.curveHeight); //up to curve start
     path.quadraticBezierTo(size.width * 0.5, 0, size.width,
-        globals.curveHeight); //right to curve end
+        Globals.curveHeight); //right to curve end
 
     path.close();
     return path;

@@ -10,8 +10,10 @@ class AppStrings {
   static const String listImageTag = 'list_image_tag';
   static const String signUp = 'Sign up';
   static const String signIn = 'Sign in';
+  static const String logIn = 'Log in';
   static const String signUpWithGoogle = 'Sign up With Google';
   static const String alreadyHaveAnAccount = 'already have an account? ';
+  static const String dontHaveAccount = 'don\'t have account? ';
   static const String name = 'Name';
   static const String nameHint = 'Enter Your Name';
   static const String phoneNumber = 'Phone Number';

@@ -1,7 +1,7 @@
 import 'package:star_coffee/data/price_summary_model.dart';
 import '../data/cart_item.dart';
 
-class PriceSummaryCalc {
+abstract class PriceSummaryCalc {
   static PriceSummaryModel getPriceSummary(List<CartItem> items) {
     if (items.isEmpty) {
       PriceSummaryModel p = PriceSummaryModel(0);

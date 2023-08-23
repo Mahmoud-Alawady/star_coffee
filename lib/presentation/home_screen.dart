@@ -1,36 +1,30 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:provider/provider.dart';
 import 'package:star_coffee/constants/app_paths.dart';
+import 'package:star_coffee/constants/globals.dart';
 import 'package:star_coffee/presentation/cart.dart';
 import 'package:star_coffee/presentation/components/clip_rount_top.dart';
 import 'package:star_coffee/presentation/components/drinks_grid.dart';
 import '../constants/app_colors.dart';
-import 'package:star_coffee/constants/globals.dart' as globals;
 import '../constants/app_strings.dart';
-
 import '../constants/text_styles.dart';
 import '../data/drink.dart';
-import '../providers/cart_provider.dart';
 import 'components/custom_app_bar.dart';
 import 'components/custom_icon_button.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
+  const HomeScreen({super.key});
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
   int _selectedCategory = 0;
   int _selectedPage = 0;
-  late double navRailWidth;
-  late double navRailHeight;
-
-  late BuildContext context;
-
-  HomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    this.context = context;
-    navRailWidth = globals.screenSize.width * 0.15;
-    navRailHeight = (globals.screenSize.height - globals.appBarHeight) * 0.86;
-
     return Scaffold(
       backgroundColor: AppColors.background,
       appBar: buildAppBar(),
@@ -100,7 +94,7 @@ class HomeScreen extends StatelessWidget {
 
   buildDrinksGrid() {
     return Padding(
-      padding: EdgeInsets.only(left: navRailWidth),
+      padding: EdgeInsets.only(left: Globals.navRailWidth),
       child: DrinksGrid(
         drinks: [
           Drink.dump0(),
@@ -122,8 +116,8 @@ class HomeScreen extends StatelessWidget {
     return Align(
       alignment: Alignment.bottomLeft,
       child: Container(
-        width: navRailWidth,
-        height: navRailHeight,
+        width: Globals.navRailWidth,
+        height: Globals.navRailHeight,
         clipBehavior: Clip.antiAlias,
         decoration: const BoxDecoration(
             borderRadius: BorderRadius.only(topRight: Radius.circular(38))),
@@ -135,7 +129,6 @@ class HomeScreen extends StatelessWidget {
           selectedIndex: _selectedCategory,
           onDestinationSelected: (int index) {
             _selectedCategory = index;
-            print('_selectedCategory: $_selectedCategory');
           },
           destinations: [
             buildNavRailDestination('Coffee'),
@@ -177,7 +170,7 @@ class HomeScreen extends StatelessWidget {
               buildNavBarIcon(AppPaths.cartIcon, 1, function: () {
                 Navigator.of(context).push(MaterialPageRoute(
                   builder: (context) {
-                    return Cart();
+                    return const Cart();
                   },
                 ));
               }),
@@ -199,7 +192,6 @@ class HomeScreen extends StatelessWidget {
       onPressed: function ??
           () {
             _selectedPage = index;
-            print('_selectedPage: $_selectedPage');
           },
       icon: SvgPicture.asset(
         icon,
@@ -214,13 +206,12 @@ class HomeScreen extends StatelessWidget {
   buildHomeButton() {
     return Positioned(
       bottom: 24,
-      width: globals.screenSize.width,
+      width: Globals.screenSize.width,
       child: Align(
         alignment: Alignment.center,
         child: TextButton(
             onPressed: () {
               _selectedPage = 0;
-              print('_selectedPage: $_selectedPage');
             },
             style: ButtonStyle(
                 shape: MaterialStateProperty.all(const CircleBorder()),

@@ -7,11 +7,11 @@ typedef IntCallback = void Function(int newQuantity);
 
 class QuantitySelect extends StatefulWidget {
   final IntCallback onQuantitySelected;
-  int quantity;
-  bool miniSize = false;
+  final int initQuantity;
+  final bool miniSize;
 
-  QuantitySelect(
-      {required this.quantity,
+  const QuantitySelect(
+      {required this.initQuantity,
       required this.onQuantitySelected,
       this.miniSize = false,
       super.key});
@@ -21,6 +21,14 @@ class QuantitySelect extends StatefulWidget {
 }
 
 class _QuantitySelectState extends State<QuantitySelect> {
+  late int quantity;
+
+  @override
+  void initState() {
+    quantity = widget.initQuantity;
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -28,7 +36,7 @@ class _QuantitySelectState extends State<QuantitySelect> {
       children: [
         buildQuantityEdit(false),
         Text(
-          widget.quantity.toString(),
+          quantity.toString(),
           style: widget.miniSize
               ? TextStyles.title.s14.secondary
               : TextStyles.title.secondary,
@@ -45,16 +53,17 @@ class _QuantitySelectState extends State<QuantitySelect> {
       child: IconButton(
           onPressed: () {
             setState(() {
-              increase
-                  ? widget.quantity++
-                  : (widget.quantity > 1)
-                      ? widget.quantity--
-                      : print('can\'t have less that 1');
+              increase ? quantity++ : decreaseQuantity();
             });
-            widget.onQuantitySelected(widget.quantity);
-            print('quantity: ${widget.quantity}');
+            widget.onQuantitySelected(quantity);
           },
           icon: SvgPicture.asset(increase ? AppPaths.plus : AppPaths.minus)),
     );
+  }
+
+  void decreaseQuantity() {
+    if (quantity > 1) {
+      quantity--;
+    }
   }
 }

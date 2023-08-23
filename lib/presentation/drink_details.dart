@@ -4,6 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 import 'package:star_coffee/constants/app_colors.dart';
 import 'package:star_coffee/constants/app_paths.dart';
+import 'package:star_coffee/constants/globals.dart';
 import 'package:star_coffee/constants/text_styles.dart';
 import 'package:star_coffee/data/cart_item.dart';
 import 'package:star_coffee/presentation/components/bottom_bar.dart';
@@ -17,11 +18,10 @@ import 'components/drink_size_select.dart';
 import 'components/quantity_select.dart';
 
 class DrinkDetails extends StatelessWidget {
-  late BuildContext context;
   final bool edit;
   final int index;
   final String imageTag;
-  CartItem cartItem;
+  final CartItem cartItem;
 
   DrinkDetails.fromCart({
     super.key,
@@ -40,25 +40,19 @@ class DrinkDetails extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    this.context = context;
-
     return AnnotatedRegion(
       value: const SystemUiOverlayStyle(
           statusBarColor: Colors.transparent,
           statusBarIconBrightness: Brightness.light),
       child: Scaffold(
         backgroundColor: AppColors.background,
-        body: buildScreen(),
+        body: Stack(children: [
+          buildBody(),
+          buildDrinkTitle(context),
+          buildBottomBar(context),
+        ]),
       ),
     );
-  }
-
-  buildScreen() {
-    return Stack(children: [
-      buildBody(),
-      buildDrinkTitle(),
-      buildBottomBar(),
-    ]);
   }
 
   buildBody() {
@@ -76,13 +70,13 @@ class DrinkDetails extends StatelessWidget {
             buildSlider(),
             const SizedBox(height: 16),
             DrinkSizeSelect(
-                size: cartItem.size,
+                initSize: cartItem.size,
                 onSizeSelected: (newSize) {
                   cartItem.size = newSize;
                 }),
             const SizedBox(height: 6),
             QuantitySelect(
-              quantity: cartItem.quantity,
+              initQuantity: cartItem.quantity,
               onQuantitySelected: (newQuantity) {
                 cartItem.quantity = newQuantity;
               },
@@ -124,8 +118,8 @@ class DrinkDetails extends StatelessWidget {
       },
       blendMode: BlendMode.srcOver,
       child: SizedBox(
-        height: MediaQuery.of(context).size.height * 0.45,
-        width: MediaQuery.of(context).size.width,
+        height: Globals.screenSize.height * 0.45,
+        width: Globals.screenSize.width,
         child: Image.network(cartItem.drink.image, fit: BoxFit.cover),
       ),
     );
@@ -148,7 +142,7 @@ class DrinkDetails extends StatelessWidget {
     );
   }
 
-  buildBottomBar() {
+  buildBottomBar(BuildContext context) {
     return BottomBar(
       text: '\$ ${cartItem.drink.price}\nAdd to cart',
       function: () {
@@ -161,7 +155,7 @@ class DrinkDetails extends StatelessWidget {
     );
   }
 
-  buildDrinkTitle() {
+  buildDrinkTitle(BuildContext context) {
     EdgeInsets buttonPadding = const EdgeInsets.symmetric(horizontal: 26);
     Widget back = IconButton(
       padding: buttonPadding,

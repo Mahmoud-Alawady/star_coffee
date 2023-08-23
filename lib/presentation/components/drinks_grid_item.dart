@@ -11,7 +11,7 @@ class DrinksGridItem extends StatelessWidget {
   final Drink drink;
   final int index;
   final String imageTag;
-  late BuildContext context;
+  late final BuildContext context;
 
   DrinksGridItem(this.drink, this.index, {super.key})
       : imageTag = AppStrings.gridImageTag + index.toString();

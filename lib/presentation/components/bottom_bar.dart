@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:star_coffee/constants/globals.dart';
 import '../../constants/app_colors.dart';
 import '../../constants/text_styles.dart';
 import 'clip_rount_top.dart';
-import 'package:star_coffee/constants/globals.dart' as globals;
 
 class BottomBar extends StatelessWidget {
   final String text;
@@ -13,7 +13,7 @@ class BottomBar extends StatelessWidget {
     return Align(
       alignment: Alignment.bottomCenter,
       child: SizedBox(
-        height: globals.bottomBarHeight,
+        height: Globals.bottomBarHeight,
         width: MediaQuery.of(context).size.width,
         child: ClipPath(
           clipBehavior: Clip.antiAlias,

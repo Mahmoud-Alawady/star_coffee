@@ -10,11 +10,11 @@ import '../../constants/text_styles.dart';
 class DrinkSizeSelect extends StatefulWidget {
   // another way to make a class accept a function cont.
   // final IntCallback onSizeSelected;
-  int size;
+  final int initSize;
   final void Function(int newSize) onSizeSelected;
 
-  DrinkSizeSelect({
-    required this.size,
+  const DrinkSizeSelect({
+    required this.initSize,
     required this.onSizeSelected,
     super.key,
   });
@@ -24,7 +24,14 @@ class DrinkSizeSelect extends StatefulWidget {
 }
 
 class _DrinkSizeSelectState extends State<DrinkSizeSelect> {
-  List<String> sizeTitle = ['Small', 'Medium', 'Large'];
+  final List<String> sizeTitle = ['Small', 'Medium', 'Large'];
+  late int size;
+
+  @override
+  void initState() {
+    size = widget.initSize;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -50,7 +57,7 @@ class _DrinkSizeSelectState extends State<DrinkSizeSelect> {
           ),
         ),
         Text(sizeTitle[i],
-            style: widget.size == i
+            style: size == i
                 ? TextStyles.body.black.s12
                 : TextStyles.body.grey.s12),
       ],
@@ -61,13 +68,12 @@ class _DrinkSizeSelectState extends State<DrinkSizeSelect> {
     const roundBorder = BorderRadius.all(Radius.circular(20));
     return Material(
       borderRadius: roundBorder,
-      color: (widget.size == i) ? AppColors.primary : Colors.white,
+      color: (size == i) ? AppColors.primary : Colors.white,
       child: InkWell(
         onTap: () {
           setState(() {
-            widget.size = i;
+            size = i;
           });
-          print('selectedSize: ${sizeTitle[widget.size]}');
 
           widget.onSizeSelected(i);
         },
@@ -78,7 +84,7 @@ class _DrinkSizeSelectState extends State<DrinkSizeSelect> {
           padding: const EdgeInsets.all(22),
           child: SvgPicture.asset(
             AppPaths.cup,
-            colorFilter: (widget.size == i)
+            colorFilter: (size == i)
                 ? const ColorFilter.mode(Colors.white, BlendMode.srcATop)
                 : const ColorFilter.mode(AppColors.primary, BlendMode.srcATop),
           ),
